@@ -7,6 +7,7 @@ import Register from "../views/Register"
 import Search from "../views/Search"
 
 Vue.use(VueRouter)
+
 export default new VueRouter({
     routes:[
         {
