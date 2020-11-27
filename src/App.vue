@@ -1,13 +1,20 @@
 <template>
   <div>
-    <h1>App...</h1>
-    <h2>测试一下</h2>
+    <Header></Header>
+    <router-view></router-view>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 export default {
   name: "Apps",
+  components: {
+    Header,
+    Footer,
+  },
 };
 </script>
 
