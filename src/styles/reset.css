@@ -114,7 +114,7 @@ html {
 
 a:link:hover {
     color: rgb(79, 76, 212) !important;
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 /* 清除浮动 */
