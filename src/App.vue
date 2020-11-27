@@ -1,5 +1,8 @@
 <template>
-  <h1>App...</h1>
+  <div>
+    <h1>App...</h1>
+    <h2>测试一下</h2>
+  </div>
 </template>
 
 <script>
