@@ -31,12 +31,15 @@
                 />
               </div>
               <div class="login-setting">
-                <label> <input type="checkbox" checked /> 自动登录 </label>
-                <span>忘记密码</span>
+                <label>
+                  <input type="checkbox" checked />
+                  自动登录
+                </label>
+                <span>忘记密码？</span>
               </div>
-              <button type="submit">登录</button>
-              <div class="register">
-                <a href="###">立即注册</a>
+              <button type="submit">登 录</button>
+              <div class="login-register">
+                <router-link to="/register">立即注册</router-link>
               </div>
             </form>
           </div>
@@ -125,7 +128,8 @@ i {
   width: 37px;
   height: 32px;
   border: 1px solid #ccc;
-  background: url(/img/icons.eb262dc2.png) no-repeat -10px -201px;
+  border-right: none;
+  background: url("./images/icons.png") no-repeat -10px -201px;
   box-sizing: border-box;
   border-radius: 2px 0 0 2px;
 }
@@ -157,8 +161,9 @@ button {
   font-size: 16px;
   color: #fff;
   word-spacing: 4px;
+  cursor: pointer;
 }
-.register {
+.login-register {
   margin-top: 30px;
 }
 a {
