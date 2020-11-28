@@ -13,13 +13,14 @@
             </li>
           </ul>
           <div class="login-form-bottom clearfix">
-            <form>
+            <form @submit.prevent="login">
               <div class="login-phone">
                 <i class="icon-phone"></i>
                 <input
                   type="text"
                   placeholder="手机号"
                   class="login-input login-input-phone"
+                  v-model="phone"
                 />
               </div>
               <div class="login-password">
@@ -28,6 +29,7 @@
                   type="password"
                   placeholder="请输入密码"
                   class="login-input login-input-password"
+                  v-model="password"
                 />
               </div>
               <div class="login-setting">
@@ -37,7 +39,7 @@
                 </label>
                 <span>忘记密码？</span>
               </div>
-              <button type="submit">登 录</button>
+              <button>登 录</button>
               <div class="login-register">
                 <router-link to="/register">立即注册</router-link>
               </div>
@@ -50,8 +52,26 @@
 </template>
 
 <script>
+import { reqLogin } from "@api/user";
 export default {
   name: "Login",
+  data() {
+    return {
+      phone: "",
+      password: "",
+    };
+  },
+  methods: {
+    login() {
+      const { phone, password } = this;
+      reqLogin(phone, password)
+        .then(() => {
+          // console.log(res)
+          this.$router.push("/");
+        })
+        .catch(() => {});
+    },
+  },
 };
 </script>
 
