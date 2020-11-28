@@ -16,8 +16,11 @@ VueRouter.prototype.push = function (location,onComplate,onAbort){
 }
 
 const replace = VueRouter.prototype.replace;
-VueRouter.prototype.replace = function (location,onComplate=()=>{},onAbort=()=>{}){
-    replace.call(this,location,onComplate,onAbort)
+VueRouter.prototype.replace = function (location,onComplate,onAbort){
+    if(onComplate && onAbort){
+        return replace.call(this,location,onComplate,onAbort)
+      }
+      return replace.call(this,()=>{},()=>{})
 }
 
 Vue.use(VueRouter)
