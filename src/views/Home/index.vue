@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <TypeNav/>
+    <TypeNav />
     <!-- 列表 -->
-    <ListContainer/>
+    <ListContainer />
   </div>
 </template>
 
