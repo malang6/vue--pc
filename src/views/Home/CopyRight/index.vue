@@ -66,9 +66,7 @@ export default {
 
 <style lang="less" scoped>
 .copyright {
-  position: absolute;
   width: 100%;
-  top: 700px;
   background-color: #eaeaea;
 }
 .copyright-area {
