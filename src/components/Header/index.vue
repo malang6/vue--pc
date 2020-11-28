@@ -70,7 +70,22 @@ export default {
           searchText,
         };
       }
-      this.$router.push(location);
+      this.$router.push(
+        location
+        /* ,
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        } */
+      );
+      /* .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        }); */
     },
   },
 };

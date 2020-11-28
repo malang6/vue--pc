@@ -5,6 +5,7 @@ import router from "./router"
 import './styles/reset.css'
 
 Vue.config.productionTip = false
+
 new Vue({
     render: h => h(App),
     router
