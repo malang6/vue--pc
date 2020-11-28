@@ -32,11 +32,14 @@ export default {
 <style lang="less" scoped>
 .today_recommend {
   width: 100%;
+  margin: 10px 0;
 }
 .today_recommend-list {
   display: flex;
   width: 1200px;
   margin: 0 auto;
+  height: 165px;
+  background-color: #eaeaea;
 }
 .clock {
   width: 16.67%;

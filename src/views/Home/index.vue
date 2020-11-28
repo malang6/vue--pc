@@ -5,7 +5,9 @@
     <!-- 列表 -->
     <ListContainer />
     <!-- 今日推荐 -->
-    <TodayRecommend/>
+    <TodayRecommend />
+    <!-- 热卖 -->
+    <Rank />
     <!-- 页脚 -->
     <CopyRight />
   </div>
@@ -15,6 +17,7 @@
 import TypeNav from "@comps/TypeNav";
 import ListContainer from "@views/Home/ListContainer";
 import TodayRecommend from "@views/Home/TodayRecommend";
+import Rank from "@views/Home/Rank";
 import CopyRight from "@views/Home/CopyRight";
 export default {
   name: "Home",
@@ -22,6 +25,7 @@ export default {
     TypeNav,
     ListContainer,
     TodayRecommend,
+    Rank,
     CopyRight,
   },
 };
