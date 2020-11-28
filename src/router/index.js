@@ -16,14 +16,22 @@ export default new VueRouter({
         },
         {
             path:'/login',
-            component:Login
+            component:Login,
+            meta:{
+                isFooterHide:true
+            }
         },
         {
             path:'/register',
-            component:Register
+            component:Register,
+            meta:{
+                isFooterHide:true
+            }
         },
         {
-            path:'/search',
+            name:"search",
+            //?表示parmas参数可选的
+            path:'/search/:searchText?',
             component:Search
         },
     ]

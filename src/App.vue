@@ -1,8 +1,9 @@
 <template>
   <div>
-    <Header></Header>
+    <Header />
     <router-view></router-view>
-    <Footer></Footer>
+    <!-- <Footer v-if="$route.path !== '/login' && $route.path !== '/register'" /> -->
+    <Footer v-if="!$route.meta.isFooterHide" />
   </div>
 </template>
 
