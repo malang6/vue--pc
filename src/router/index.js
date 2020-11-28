@@ -29,20 +29,25 @@ export default new VueRouter({
     routes:[
         {
             path:'/',
-            component:Home
+            component:Home,
+            meta:{
+                isFooterHide:true
+            }
         },
         {
             path:'/login',
             component:Login,
             meta:{
-                isFooterHide:true
+                isCopyRight:true,
+                isFooterHide:false
             }
         },
         {
             path:'/register',
             component:Register,
             meta:{
-                isFooterHide:true
+                isCopyRight:true,
+                isFooterHide:false
             }
         },
         {

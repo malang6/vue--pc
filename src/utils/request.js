@@ -5,7 +5,9 @@ import NProgress from 'nprogress'
 import "nprogress/nprogress.css"
 
 const instance = axios.create({
+    //基础路径 因为做了用户代理，所以前面的目标地址不用写了。
     baseURL: "/api",
+    //公共请求头，直接写在这里，就代表所以请求都会携带上
     headers:{}
 })
 
