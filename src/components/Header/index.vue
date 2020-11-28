@@ -46,7 +46,7 @@ export default {
   name: "Header",
   data() {
     return {
-      searchText: "",
+      searchText: "", //搜索内容文本
     };
   },
   methods: {
