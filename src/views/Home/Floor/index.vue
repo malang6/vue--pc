@@ -124,7 +124,7 @@ a:hover {
 //轮播图占个位置
 .floor-banner {
   img {
-    width: 329px;
+    width: 325px;
     height: 360px;
   }
 }

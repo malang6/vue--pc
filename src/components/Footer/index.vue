@@ -32,7 +32,8 @@ export default {
   justify-content: center;
 }
 li {
-  border-right: 1px solid #e4e4e4;
+  border-right: 1px solid #ccc;
+  // border-right: 1px solid #e4e4e4;
   padding: 4px 20px;
   margin: 15px 0;
 }
