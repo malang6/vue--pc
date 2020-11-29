@@ -10,6 +10,12 @@
     <Rank />
     <!-- 猜你喜欢 -->
     <Like />
+    <!-- 楼层 -->
+    <Floor />
+    <!-- 楼层 -->
+    <Floor />
+    <!-- 品牌商 -->
+    <Banner />
     <!-- 页脚 -->
     <CopyRight />
   </div>
@@ -21,6 +27,8 @@ import ListContainer from "@views/Home/ListContainer";
 import TodayRecommend from "@views/Home/TodayRecommend";
 import Rank from "@views/Home/Rank";
 import Like from "@views/Home/Like";
+import Floor from "@views/Home/Floor";
+import Banner from "@views/Home/Banner";
 import CopyRight from "@views/Home/CopyRight";
 export default {
   name: "Home",
@@ -30,6 +38,8 @@ export default {
     TodayRecommend,
     Rank,
     Like,
+    Floor,
+    Banner,
     CopyRight,
   },
 };
