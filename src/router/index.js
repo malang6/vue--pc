@@ -6,7 +6,7 @@ import Login from "@views/Login"
 import Register from "@views/Register"
 import Search from "@views/Search"
 
-//重写$router的push和replace方法
+//重写$router的push和replace方法(解决编程式导航重复点击时报错问题)
 const push = VueRouter.prototype.push;
 VueRouter.prototype.push = function (location,onComplate,onAbort){
     if(onComplate && onAbort){
@@ -37,8 +37,9 @@ export default new VueRouter({
         {
             path:'/login',
             component:Login,
+             // 当组件加载显示时，meta中的参数会传到$route中
+            // 当组件不加载显示时，meta中的参数不会传
             meta:{
-                isCopyRight:true,
                 isFooterHide:false
             }
         },
@@ -46,7 +47,6 @@ export default new VueRouter({
             path:'/register',
             component:Register,
             meta:{
-                isCopyRight:true,
                 isFooterHide:false
             }
         },

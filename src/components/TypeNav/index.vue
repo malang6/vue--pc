@@ -5,6 +5,7 @@
         <h2>全部商品分类</h2>
         <div class="category-sort">
           <div class="category-sort-list">
+            <!-- 一级分类 -->
             <div
               class="item"
               v-for="category in categoryList"
@@ -17,6 +18,7 @@
               </h3>
               <div class="item-list">
                 <div class="subitem">
+                  <!-- 二级分类 -->
                   <dl
                     v-for="child in category.categoryChild"
                     :key="child.categoryId"
@@ -25,6 +27,7 @@
                       <a href="###">{{ child.categoryName }}</a>
                     </dt>
                     <dd>
+                      <!-- 三级分类 -->
                       <em
                         v-for="grandChild in child.categoryChild"
                         :key="grandChild.categoryId"
