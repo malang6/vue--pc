@@ -1,6 +1,6 @@
 <template>
   <div class="categoryNav">
-    <div class="category-area">
+    <div class="category-area" @click="goSearch">
       <div class="category-contain">
         <h2>全部商品分类</h2>
         <div class="category-sort">
@@ -12,9 +12,13 @@
               :key="category.categoryId"
             >
               <h3>
-                <a href="###" class="category-one">{{
-                  category.categoryName
-                }}</a>
+                <a
+                  class="category-one"
+                  :data-categoryName="category.categoryName"
+                  :data-categoryId="category.categoryId"
+                  data-categoryType="1"
+                  >{{ category.categoryName }}</a
+                >
               </h3>
               <div class="item-list">
                 <div class="subitem">
@@ -24,7 +28,12 @@
                     :key="child.categoryId"
                   >
                     <dt>
-                      <a href="###">{{ child.categoryName }}</a>
+                      <a
+                        :data-categoryName="child.categoryName"
+                        :data-categoryId="child.categoryId"
+                        data-categoryType="2"
+                        >{{ child.categoryName }}</a
+                      >
                     </dt>
                     <dd>
                       <!-- 三级分类 -->
@@ -32,7 +41,12 @@
                         v-for="grandChild in child.categoryChild"
                         :key="grandChild.categoryId"
                       >
-                        <a href="###">{{ grandChild.categoryName }}</a>
+                        <a
+                          :data-categoryName="grandChild.categoryName"
+                          :data-categoryId="grandChild.categoryId"
+                          data-categoryType="3"
+                          >{{ grandChild.categoryName }}</a
+                        >
                       </em>
                     </dd>
                   </dl>
@@ -79,6 +93,21 @@ export default {
     // 函数直接写
     // 注意：将来action函数名称和mutation函数名称不要重复
     ...mapActions(["getCategoryList"]),
+
+    goSearch(e) {
+      // console.log(e.target.dataset);
+      const { categoryname, categoryid, categorytype } = e.target.dataset;
+      //当前点击的如果不是a标签，则不跳转。因为a标签上有categoryname 所以可以通过有没有这个值来判断，没有就直接return，不进行跳转
+      if (!categoryname) return;
+
+      this.$router.push({
+        path: "/search",
+        query: {
+          categoryName: categoryname,
+          [`category${categorytype}Id`]: categoryid,
+        },
+      });
+    },
   },
   mounted() {
     // 调用vuex的action函数
@@ -132,6 +161,7 @@ h3 {
   color: #333;
 }
 a:hover {
+  cursor: pointer;
   color: rgb(79, 76, 212);
 }
 .item-list {

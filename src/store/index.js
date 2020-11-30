@@ -29,7 +29,7 @@ const mutations = {};
 */
 
 export default new Vuex.Store({
-    state, // 总state
+    state, // 总state(多个组件公共的状态数据就可以放这里)
     getters, // 总getters
     actions, // 总actions
     mutations, // 总mutations
