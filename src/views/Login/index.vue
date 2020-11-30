@@ -65,9 +65,11 @@ export default {
     login() {
       const { phone, password } = this;
       reqLogin(phone, password)
-        .then(() => {
-          // console.log(res)
-          this.$router.push("/");
+        .then((res) => {
+          console.log(res.name);
+          this.$router.push({
+            path: "/",
+          });
         })
         .catch(() => {});
     },
