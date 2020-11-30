@@ -4,17 +4,12 @@
       <div class="center">
         <div class="swiper-container">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images/banner4.jpg" />
+            <div
+              class="swiper-slide"
+              v-for="banner in banners"
+              :key="banner.id"
+            >
+              <img :src="banner.imgUrl" />
             </div>
           </div>
           <div class="swiper-btn left"></div>
@@ -107,7 +102,7 @@
           </li>
         </ul>
         <div class="ads">
-          <img src="./images/ad1.png"/>
+          <img src="./images/ad1.png" />
         </div>
       </div>
     </div>
@@ -115,8 +110,20 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "ListContainer",
+  computed: {
+    ...mapState({
+      banners: (state) => state.home.banners,
+    }),
+  },
+  methods: {
+    ...mapActions(["getBanners"]),
+  },
+  mounted() {
+    this.getBanners();
+  },
 };
 </script>
 
@@ -262,7 +269,7 @@ h4 {
 .i-bt {
   background-position: -190px -146px;
 }
-.ads{
+.ads {
   margin-top: 5px;
 }
 </style>

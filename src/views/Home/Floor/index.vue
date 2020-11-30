@@ -2,54 +2,47 @@
   <div class="floor">
     <div class="floor-area">
       <div class="floor-title">
-        <h3>家用电器</h3>
+        <h3>{{ floor.name }}</h3>
         <ul class="floor-title-list">
-          <li class="floor-title-item"><a href="###" class="item">热门</a></li>
-          <li class="floor-title-item">
-            <a href="###" class="item">大家电</a>
+          <li
+            class="floor-title-item"
+            v-for="(keyword, index) in floor.keywords"
+            :key="index"
+          >
+            <a href="###" class="item">{{ keyword }}</a>
           </li>
-          <li class="floor-title-item">
-            <a href="###" class="item">生活电器</a>
-          </li>
-          <li class="floor-title-item">
-            <a href="###" class="item">厨房电器</a>
-          </li>
-          <li class="floor-title-item">
-            <a href="###" class="item">应季电器</a>
-          </li>
-          <li class="floor-title-item">
-            <a href="###" class="item">空气/净水器</a>
-          </li>
-          <li class="floor-title-item"><a href="###">高端电器</a></li>
         </ul>
       </div>
       <div class="floor-contain">
         <div class="blockgary">
           <ul class="contain-list">
-            <li>节能补贴</li>
-            <li>4K电视</li>
-            <li>空气净化器</li>
-            <li>1H电饭煲</li>
-            <li>滚筒洗衣机</li>
-            <li>电热水器</li>
+            <li v-for="(navItem, index) in floor.navList" :key="index">
+              {{ navItem.text }}
+            </li>
           </ul>
-          <img src="./images/floor-1-1.png" class="blockgary-img" />
+          <img :src="floor.imgUrl" class="blockgary-img" />
         </div>
         <div class="floor-banner">
           <img src="./images/floor-1-b01.png" />
         </div>
         <div class="split">
           <span class="line"></span>
-          <img src="./images/floor-1-2.png" />
-          <img src="./images/floor-1-3.png" />
+          <img
+            :src="recommendItem"
+            v-for="(recommendItem, index) in floor.recommendList.slice(0, 2)"
+            :key="index"
+          />
         </div>
         <div class="split-center">
-          <img src="./images/floor-1-4.png" />
+          <img :src="floor.bigImg" />
         </div>
         <div class="split">
           <span class="line"></span>
-          <img src="./images/floor-1-5.png" />
-          <img src="./images/floor-1-6.png" />
+          <img
+            :src="recommendItem"
+            v-for="(recommendItem, index) in floor.recommendList.slice(2, 4)"
+            :key="index"
+          />
         </div>
       </div>
     </div>
@@ -59,6 +52,9 @@
 <script>
 export default {
   name: "Floor",
+  props: {
+    floor: Object,
+  },
 };
 </script>
 
@@ -83,6 +79,12 @@ h3 {
 }
 .floor-title-item {
   line-height: 18px;
+  /*  &:first-child >a{
+    color: #e1251b;
+  } */
+  &:last-child > a::after {
+    content: "";
+  }
 }
 a {
   padding-top: 1px;

@@ -131,7 +131,9 @@ export default {
     },
   },
   mounted() {
-    if (!this.categoryList) return;
+    //判断categoryList存在，并且长度不为0.如果存在表示已经发过请求了，就不用再去重复发请求。
+    // 减少请求次数
+    if (this.categoryList.length) return;
     // 调用vuex的action函数
     this.getCategoryList();
   },

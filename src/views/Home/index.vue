@@ -11,9 +11,7 @@
     <!-- 猜你喜欢 -->
     <Like />
     <!-- 楼层 -->
-    <Floor />
-    <!-- 楼层 -->
-    <Floor />
+    <Floor v-for="floor in floors" :key="floor.id" :floor="floor" />
     <!-- 品牌商 -->
     <Banner />
   </div>
@@ -27,8 +25,21 @@ import Rank from "@views/Home/Rank";
 import Like from "@views/Home/Like";
 import Floor from "@views/Home/Floor";
 import Banner from "@views/Home/Banner";
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Home",
+  computed: {
+    ...mapState({
+      floors: (state) => state.home.floors,
+    }),
+  },
+  methods: {
+    ...mapActions(["getFloors"]),
+  },
+  mounted() {
+    this.getFloors();
+  },
   components: {
     TypeNav,
     ListContainer,
