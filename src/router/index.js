@@ -31,7 +31,7 @@ export default new VueRouter({
             path:'/',
             component:Home,
             meta:{
-                isFooterHide:true
+                isCopyRightHide:false
             }
         },
         {
@@ -40,21 +40,21 @@ export default new VueRouter({
              // 当组件加载显示时，meta中的参数会传到$route中
             // 当组件不加载显示时，meta中的参数不会传
             meta:{
-                isFooterHide:false
+                isCopyRightHide:true
             }
         },
         {
             path:'/register',
             component:Register,
             meta:{
-                isFooterHide:false
+                isCopyRightHide:true
             }
         },
         {
             name:"search",
             //?表示parmas参数可选的
             path:'/search/:searchText?',
-            component:Search
+            component:Search,
         },
     ]
 })

@@ -2,58 +2,66 @@
   <div class="categoryNav">
     <div class="category-area" @click="goSearch">
       <div class="category-contain">
-        <h2>全部商品分类</h2>
-        <div class="category-sort">
-          <div class="category-sort-list">
-            <!-- 一级分类 -->
-            <div
-              class="item"
-              v-for="category in categoryList"
-              :key="category.categoryId"
-            >
-              <h3>
-                <a
-                  class="category-one"
-                  :data-categoryName="category.categoryName"
-                  :data-categoryId="category.categoryId"
-                  data-categoryType="1"
-                  >{{ category.categoryName }}</a
+        <div
+          @mouseenter="isSearchShow = true"
+          @mouseleave="isSearchShow = false"
+        >
+          <h2>全部商品分类</h2>
+          <!-- 给显示隐藏添加过滤效果-->
+          <transition name="search">
+            <div class="category-sort" v-show="isHomeShow || isSearchShow">
+              <div class="category-sort-list">
+                <!-- 一级分类 -->
+                <div
+                  class="item"
+                  v-for="category in categoryList"
+                  :key="category.categoryId"
                 >
-              </h3>
-              <div class="item-list">
-                <div class="subitem">
-                  <!-- 二级分类 -->
-                  <dl
-                    v-for="child in category.categoryChild"
-                    :key="child.categoryId"
-                  >
-                    <dt>
-                      <a
-                        :data-categoryName="child.categoryName"
-                        :data-categoryId="child.categoryId"
-                        data-categoryType="2"
-                        >{{ child.categoryName }}</a
+                  <h3>
+                    <a
+                      class="category-one"
+                      :data-categoryName="category.categoryName"
+                      :data-categoryId="category.categoryId"
+                      data-categoryType="1"
+                      >{{ category.categoryName }}</a
+                    >
+                  </h3>
+                  <div class="item-list">
+                    <div class="subitem">
+                      <!-- 二级分类 -->
+                      <dl
+                        v-for="child in category.categoryChild"
+                        :key="child.categoryId"
                       >
-                    </dt>
-                    <dd>
-                      <!-- 三级分类 -->
-                      <em
-                        v-for="grandChild in child.categoryChild"
-                        :key="grandChild.categoryId"
-                      >
-                        <a
-                          :data-categoryName="grandChild.categoryName"
-                          :data-categoryId="grandChild.categoryId"
-                          data-categoryType="3"
-                          >{{ grandChild.categoryName }}</a
-                        >
-                      </em>
-                    </dd>
-                  </dl>
+                        <dt>
+                          <a
+                            :data-categoryName="child.categoryName"
+                            :data-categoryId="child.categoryId"
+                            data-categoryType="2"
+                            >{{ child.categoryName }}</a
+                          >
+                        </dt>
+                        <dd>
+                          <!-- 三级分类 -->
+                          <em
+                            v-for="grandChild in child.categoryChild"
+                            :key="grandChild.categoryId"
+                          >
+                            <a
+                              :data-categoryName="grandChild.categoryName"
+                              :data-categoryId="grandChild.categoryId"
+                              data-categoryType="3"
+                              >{{ grandChild.categoryName }}</a
+                            >
+                          </em>
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
         <nav class="categoryNav-nav">
           <a href="###">服装城</a>
@@ -74,6 +82,12 @@
 import { mapState, mapActions } from "vuex";
 export default {
   name: "CategoryNav",
+  data() {
+    return {
+      isHomeShow: this.$route.path === "/", //控制home组件中 三级分类显示
+      isSearchShow: false, //控制search组件中，三级分类的显示隐藏
+    };
+  },
   computed: {
     // 当使用vuex模块化，这种方式就不行了
     // ...mapState(["testCount", "categoryList"]),
@@ -99,14 +113,21 @@ export default {
       const { categoryname, categoryid, categorytype } = e.target.dataset;
       //当前点击的如果不是a标签，则不跳转。因为a标签上有categoryname 所以可以通过有没有这个值来判断，没有就直接return，不进行跳转
       if (!categoryname) return;
-
-      this.$router.push({
+      const location = {
+        name: "search",
         path: "/search",
         query: {
           categoryName: categoryname,
           [`category${categorytype}Id`]: categoryid,
         },
-      });
+      };
+      const { searchText } = this.$route.params;
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
+      }
+      this.$router.push(location);
     },
   },
   mounted() {
@@ -212,5 +233,12 @@ em {
   padding: 0 8px;
   margin-top: 5px;
   border-left: 1px solid #ccc;
+}
+.search-enter {
+  height: 0;
+}
+.search-enter-active {
+  transition: height 0.5s;
+  overflow: hidden;
 }
 </style>

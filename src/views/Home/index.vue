@@ -16,8 +16,6 @@
     <Floor />
     <!-- 品牌商 -->
     <Banner />
-    <!-- 页脚 -->
-    <CopyRight />
   </div>
 </template>
 
@@ -29,7 +27,6 @@ import Rank from "@views/Home/Rank";
 import Like from "@views/Home/Like";
 import Floor from "@views/Home/Floor";
 import Banner from "@views/Home/Banner";
-import CopyRight from "@views/Home/CopyRight";
 export default {
   name: "Home",
   components: {
@@ -40,7 +37,6 @@ export default {
     Like,
     Floor,
     Banner,
-    CopyRight,
   },
 };
 </script>

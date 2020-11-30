@@ -49,25 +49,20 @@
           </dd>
         </dl>
       </div>
-      <Footer />
     </div>
   </div>
 </template>
 
 <script>
-import Footer from "@comps/Footer";
 export default {
   name: "CopyRight",
-  components: {
-    Footer,
-  },
 };
 </script>
 
 <style lang="less" scoped>
 .copyright {
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   background-color: #eaeaea;
 }
 .copyright-area {
@@ -82,6 +77,7 @@ export default {
   border-top: 1px solid #e4e1e1;
   overflow: hidden;
   padding-left: 40px;
+  text-align: left;
 }
 dl {
   flex: 1;
