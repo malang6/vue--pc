@@ -131,6 +131,7 @@ export default {
     },
   },
   mounted() {
+    if (!this.categoryList) return;
     // 调用vuex的action函数
     this.getCategoryList();
   },
