@@ -22,15 +22,16 @@
           </ul>
           <img :src="floor.imgUrl" class="blockgary-img" />
         </div>
-        <div class="floor-banner">
-          <img src="./images/floor-1-b01.png" />
+        <div class="lunbo">
+          <!-- 轮播图 -->
+          <Carousel :carouselList="floor.carouselList" />
         </div>
         <div class="split">
           <span class="line"></span>
           <img
-            :src="recommendItem"
-            v-for="(recommendItem, index) in floor.recommendList.slice(0, 2)"
-            :key="index"
+            :src="recommend.imgUrl"
+            v-for="recommend in floor.recommendList.slice(0, 2)"
+            :key="recommend.id"
           />
         </div>
         <div class="split-center">
@@ -39,9 +40,9 @@
         <div class="split">
           <span class="line"></span>
           <img
-            :src="recommendItem"
-            v-for="(recommendItem, index) in floor.recommendList.slice(2, 4)"
-            :key="index"
+            :src="recommend.imgUrl"
+            v-for="recommend in floor.recommendList.slice(2, 4)"
+            :key="recommend.id"
           />
         </div>
       </div>
@@ -50,10 +51,14 @@
 </template>
 
 <script>
+import Carousel from "@comps/Carousel";
 export default {
   name: "Floor",
   props: {
     floor: Object,
+  },
+  components: {
+    Carousel,
   },
 };
 </script>
@@ -151,5 +156,9 @@ a:hover {
 }
 .split-center {
   border-left: 1px solid #e4e4e4;
+}
+.lunbo {
+  width: 329px;
+  height: 360px;
 }
 </style>

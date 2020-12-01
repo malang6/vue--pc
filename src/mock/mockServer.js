@@ -12,5 +12,5 @@ Mock.mock("/mock/banners","get",{
 Mock.mock("/mock/floors","get",{
     code:200,
     // 这里如果使用原始写了的数据 floors 则不需要再随机数量 直接"data":floors即可 注意引入banners文件
-    "data|3-5":floors,
+    "data|2-3":floors,
 })

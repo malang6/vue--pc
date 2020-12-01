@@ -1,0 +1,9 @@
+[
+    {
+        "title": "@ctitle(4)",
+        "changeText": "@ctitle(3)",
+        "imgUrl": "@image('142x142','@color')",
+        "infoText": "@ctitle(15,20)",
+        "price|105-300": 118
+    }
+]

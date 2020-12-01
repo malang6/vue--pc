@@ -12,14 +12,17 @@
         "text": "@ctitle(2,4)"
       }
     ],
-    "carouselList|3": [
+    "carouselList|2": [
       {
         "id|+1": 1,
-        "imgUrl": "@image('210x200', '@color')"
+        "imgUrl": "@image('340x360', '@color')"
       }
     ],
     "recommendList|4": [
-      "@image('220x179', '@color')"
+      {
+        "id|+1": 1,
+        "imgUrl": "@image('220x179', '@color')"
+      }
     ],
     "bigImg": "@image('210x360', '@color')"
   }
