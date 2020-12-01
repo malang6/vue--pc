@@ -50,56 +50,27 @@
             <!-- 商品列表 -->
             <div class="goods-list">
               <ul class="g-list">
-                <li class="g-list-item">
+                <li
+                  class="g-list-item"
+                  v-for="goods in goodsList"
+                  :key="goods.id"
+                >
                   <div class="list-wapper">
                     <!-- 商品图片 -->
                     <div class="g-img">
                       <a href="###">
-                        <img src="./image/mobile04.png" class="img" />
+                        <img :src="goods.defaultImg" class="img" />
                       </a>
                     </div>
                     <!-- 商品价格 -->
                     <div class="price">
                       <strong>
-                        <i>￥22</i>
+                        <i>￥{{ goods.price }}</i>
                       </strong>
                     </div>
                     <!-- 商品描述 -->
                     <div class="attr">
-                      <a href="###">那三可能</a>
-                    </div>
-                    <!-- 商品评价 -->
-                    <div class="commit">
-                      <i>
-                        已有
-                        <span>2000</span>
-                        人评价
-                      </i>
-                    </div>
-                    <!-- 加入购物车 -->
-                    <div class="operate">
-                      <a href="###" class="sui-btn btn-red">加入购物车</a>
-                      <a href="###" class="sui-btn btn-bordered">收藏</a>
-                    </div>
-                  </div>
-                </li>
-                <li class="g-list-item">
-                  <div class="list-wapper">
-                    <!-- 商品图片 -->
-                    <div class="g-img">
-                      <a href="###">
-                        <img src="./image/mobile04.png" class="img" />
-                      </a>
-                    </div>
-                    <!-- 商品价格 -->
-                    <div class="price">
-                      <strong>
-                        <i>￥22</i>
-                      </strong>
-                    </div>
-                    <!-- 商品描述 -->
-                    <div class="attr">
-                      <a href="###">那三可能</a>
+                      <a href="###">{{ goods.title }}</a>
                     </div>
                     <!-- 商品评价 -->
                     <div class="commit">
@@ -135,6 +106,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
 import SearchType from "./SearchType";
 import TypeNav from "@comps/TypeNav";
 export default {
@@ -142,6 +114,15 @@ export default {
   components: {
     TypeNav,
     SearchType,
+  },
+  computed: {
+    ...mapGetters(["goodsList"]),
+  },
+  methods: {
+    ...mapActions(["getProductionList"]),
+  },
+  mounted() {
+    this.getProductionList();
   },
 };
 </script>
@@ -239,12 +220,14 @@ export default {
   height: 255px;
 }
 .img {
+  width: 215px;
+  height: 215px;
   vertical-align: middle;
   transition: all 0.5s;
 }
 .img:hover {
-  transform: scale(1.1);
-  opacity: 0.9;
+  transform: scale(1.05);
+  opacity: 0.8;
 }
 .price {
   font-size: 18px;

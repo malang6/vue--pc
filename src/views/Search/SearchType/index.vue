@@ -5,10 +5,13 @@
       <div class="brand key">品牌</div>
       <div class="logo-list value">
         <ul class="logo-list-item">
-          <li class="logo-item">彭于晏</li>
-
-          <li class="logo-item">邓伦</li>
-          <li class="logo-item">李易峰</li>
+          <li
+            class="logo-item"
+            v-for="trademark in trademarkList"
+            :key="trademark.tmId"
+          >
+            {{ trademark.tmName }}
+          </li>
         </ul>
       </div>
       <div class="ext">
@@ -27,12 +30,16 @@
         </ul>
       </div>
     </div>
-    <div class="type-wrap tlist">
-      <div class="key">产生你说</div>
+    <div class="type-wrap tlist" v-for="attrs in attrsList" :key="attrs.attrId">
+      <div class="key">{{ attrs.attrName }}</div>
       <div class="value">
         <ul class="type-list">
-          <li class="type-list-item">
-            <a>建安费扣篮动哈建瓯四季青</a>
+          <li
+            class="type-list-item"
+            v-for="(attrValue, index) in attrs.attrValueList"
+            :key="index"
+          >
+            <a>{{ attrValue }}</a>
           </li>
         </ul>
       </div>
@@ -41,8 +48,12 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "SearchType",
+  computed: {
+    ...mapGetters(["trademarkList", "attrsList"]),
+  },
 };
 </script>
 
