@@ -7,7 +7,7 @@
           @mouseleave="isSearchShow = false"
         >
           <h2>全部商品分类</h2>
-          <!-- 给显示隐藏添加过滤效果-->
+          <!-- 给显示隐藏添加过渡效果-->
           <transition name="search">
             <div class="category-sort" v-show="isHomeShow || isSearchShow">
               <div class="category-sort-list">
@@ -114,8 +114,7 @@ export default {
       //当前点击的如果不是a标签，则不跳转。因为a标签上有categoryname 所以可以通过有没有这个值来判断，没有就直接return，不进行跳转
       if (!categoryname) return;
       const location = {
-        name: "search",
-        path: "/search",
+        name: "search", //命名路由
         query: {
           categoryName: categoryname,
           [`category${categorytype}Id`]: categoryid,
