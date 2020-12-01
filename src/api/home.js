@@ -21,6 +21,16 @@ export const mockGetBanners = ()=>{
 }
 
 /**
+ * 获取猜你喜欢组件数据
+ */
+export const mockGetLikes = ()=>{
+    return mockRequest({
+        method:"GET",
+        url:"/likes"
+    })
+}
+
+/**
  * 获取楼层数据
  */
 export const mockGetFloors = ()=>{

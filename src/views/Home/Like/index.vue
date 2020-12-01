@@ -1,6 +1,6 @@
 <template>
   <div class="like">
-    <div class="like-area">
+    <!--   <div class="like-area">
       <div class="like-text">
         <h3>猜你喜欢</h3>
         <p class="like-change">
@@ -77,13 +77,52 @@
           </li>
         </ul>
       </div>
+    </div> -->
+    <div class="like-area">
+      <div class="like-text">
+        <h3>猜你喜欢</h3>
+        <p class="like-change">
+          <a class="fr" @click="change">换一换</a>
+        </p>
+      </div>
+      <div>
+        <ul class="like-list">
+          <li class="like-item" v-for="like in likes" :key="like.id">
+            <p class="like-info-pic">
+              <a href="###"> <img :src="like.imgUrl" /> </a>
+            </p>
+            <div class="like-info">
+              <div class="like-info-title">
+                <a href="###">{{ like.infoText }}</a>
+              </div>
+              <p class="like-info-price">¥{{ like.price }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "Like",
+  computed: {
+    ...mapState({
+      likes: (state) => state.home.likes,
+    }),
+  },
+  methods: {
+    ...mapActions(["getLikes"]),
+    change() {
+      this.getLikes();
+    },
+  },
+  mounted() {
+    this.getLikes();
+  },
 };
 </script>
 
@@ -116,6 +155,7 @@ h3 {
   font-weight: 400;
   color: #666;
   text-decoration: none;
+  cursor: pointer;
 }
 .like-list {
   border: 1px solid #e4e4e4;
