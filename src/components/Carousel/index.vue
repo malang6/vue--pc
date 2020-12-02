@@ -67,7 +67,7 @@ export default {
     // this.$nextTick为了确保轮播图数据已经渲染成DOM元素
 
     carouselList() {
-      // 确保：swiper不能new多次(这里没必要判断，因为轮播图请求就发了一次)
+      // 确保：swiper不能new多次
       if (this.swiper) return;
       this.$nextTick(() => {
         this.initSwiper();
@@ -82,6 +82,7 @@ export default {
       2. Floor 
         一上来就有数据 -- mounted  
     */
+    //空数组转成布尔值还是true 所以这里要判断数组的长度
     if (!this.carouselList.length) return;
     this.initSwiper();
   },

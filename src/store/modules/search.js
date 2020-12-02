@@ -10,7 +10,6 @@ export default {
     },
     getters: {
         trademarkList(state) {
-            console.log(state.productList)
           return state.productList.trademarkList;
         },
         attrsList(state) {

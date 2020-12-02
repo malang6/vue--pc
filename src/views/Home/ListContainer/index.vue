@@ -113,13 +113,12 @@ export default {
     this.getBanners();
   },
 
-  
   /*不将轮播拆分成组件时候的写法 
   async mounted() {
     // await就会等待vuex将数据更新完毕，再执行后面代码
     await this.getBanners();
       //new Swiper的前提：必须先 生成相应的DOM结构
-      // 方法一 加定时器,让new Swiper成为异步执行（宏任务） 因为页面更新DOM结构式微任务
+      // 方法一 加定时器,让new Swiper成为异步执行（宏任务） 因为页面更新DOM结构是微任务
       // setTimeout(() => {
       //   new Swiper(".swiper-container", {
       //       loop: true,

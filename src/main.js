@@ -13,6 +13,10 @@ import './styles/reset.css'
 Vue.config.productionTip = false
 
 new Vue({
+    //在Vue的原型对象上添加一个可以绑定事件的对象。
+    beforeCreate(){
+        Vue.prototype.$bus = this;
+    },
     render: h => h(App),
     router,
     store

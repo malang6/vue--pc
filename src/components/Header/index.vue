@@ -76,16 +76,28 @@ export default {
           ...this.$route.query,
         };
       }
-      this.$router.push(
-        location
-        /* ,
-        (res) => {
-          console.log(res);
-        },
-        (err) => {
-          console.log(err);
-        } */
-      );
+
+      //判断是不是在search页面，在的话那就是replace跳转 不在的话就要用push跳转，否则会导致回退不到主页面
+
+      //if(this.$route.path.indexOf("/search")>-1)
+      //if(this.$route.path.includes("/search"))
+      //if(this.$route.path.startWith("/search"))
+      //if(/^\/search/.test(this.$route.path))
+      if (this.$route.name === "search") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
+      // this.$router.push(
+      //   location
+      //   /* ,
+      //   (res) => {
+      //     console.log(res);
+      //   },
+      //   (err) => {
+      //     console.log(err);
+      //   } */
+      // );
       /* .then((res) => {
           console.log(res);
         })
@@ -93,6 +105,20 @@ export default {
           console.log(err);
         }); */
     },
+  },
+  watch: {
+    //监听路径，如果是在主页，则去掉搜索框的文字
+    $route() {
+      if (this.$route.path === "/") {
+        this.searchText = "";
+      }
+    },
+  },
+  mounted() {
+    //全局事件总线 绑定清空搜索框文字事件
+    this.$bus.$on("clearKeyword", () => {
+      this.searchText = "";
+    });
   },
 };
 </script>

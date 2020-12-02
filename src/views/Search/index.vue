@@ -12,13 +12,16 @@
               </li>
             </ul>
             <ul class="sui-tag">
-              <li class="with-x">
-                246:彭于晏
+              <li class="with-x" v-show="options.keyword" @click="delKeyword">
+                {{ options.keyword }}
                 <i class="with-x-i">x</i>
               </li>
-
-              <li class="with-x">
-                286:邓伦
+              <li
+                class="with-x"
+                v-show="options.categoryName"
+                @click="delCategoryName"
+              >
+                {{ options.categoryName }}
                 <i class="with-x-i">x</i>
               </li>
             </ul>
@@ -35,14 +38,20 @@
                   <li class="sui-navbar-item active">
                     <a href="###"
                       >综合
-                      <i class="iconfont"></i>
+                      <i class="iconfont icondown"></i>
                     </a>
                   </li>
                   <li class="sui-navbar-item">
-                    <a href="###">销量 </a>
+                    <a href="###">销量</a>
                   </li>
                   <li class="sui-navbar-item">
-                    <a href="###">新品 </a>
+                    <a href="###">新品</a>
+                  </li>
+                  <li class="sui-navbar-item">
+                    <a href="###">评价⬆</a>
+                  </li>
+                  <li class="sui-navbar-item">
+                    <a href="###">价格⬇</a>
                   </li>
                 </ul>
               </div>
@@ -111,18 +120,85 @@ import SearchType from "./SearchType";
 import TypeNav from "@comps/TypeNav";
 export default {
   name: "Search",
+  data() {
+    return {
+      options: {
+        category1Id: "", //一级分类Id
+        category2Id: "", //二级分类Id
+        category3Id: "", //三级分类Id
+        categoryName: "", //分类名称
+        keyword: "", //搜索内容（搜索关键字）
+        order: "", //排序 1 综合排序 2 价格排序 asc升序 desc降序
+        pageNo: 1,
+        pageSize: 5,
+        props: [], //商品属性
+        trademark: "", //品牌
+      },
+    };
+  },
   components: {
     TypeNav,
     SearchType,
+  },
+  watch: {
+    //监听路径，当搜索内容变了之后，重新更新并发请求
+    $route() {
+      this.updateProductList();
+    },
   },
   computed: {
     ...mapGetters(["goodsList"]),
   },
   methods: {
     ...mapActions(["getProductionList"]),
+    updateProductList() {
+      //先解构赋值 将searchText 从 this.$route.params中解构出来
+      //searchText: keyword 这是将解构出来的searchText重命名为keyword
+      const { searchText: keyword } = this.$route.params;
+      const {
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      } = this.$route.query;
+      // const options={
+      //直接修改数据并更新状态
+       this.options = {
+        ...this.options,
+        keyword,
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      };
+
+      //更新状态数据
+      // this.options = options;
+
+      //发请求
+      this.getProductionList(this.options);
+    },
+    //删除params
+    delKeyword() {
+      this.options.keyword = "";
+      this.$bus.$emit("clearKeyword");
+      //要改变路径的params 就要重新跳转 直接this.$route.params={}这样不行，因为$route是只读的 不允许修改
+      this.$router.replace({
+        name: "search",
+        query: this.$route.query,
+      });
+    },
+    //删除query
+    delCategoryName() {
+      this.options.categoryName = "";
+      this.$router.replace({
+        name: "search",
+        params: this.$route.params,
+      });
+    },
   },
   mounted() {
-    this.getProductionList();
+    this.updateProductList();
   },
 };
 </script>
@@ -211,9 +287,13 @@ export default {
   flex-wrap: wrap;
   padding-left: 15px;
 }
-.g-list.item {
+.g-list-item {
+  width: 220px;
+  // height: 399px;
   margin-top: 10px;
   line-height: 28px;
+  padding-left: 15px;
+
 }
 .g-img {
   width: 215px;
@@ -244,6 +324,11 @@ export default {
   min-height: 38px;
   cursor: pointer;
   line-height: 1.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   a {
     color: #333;
   }

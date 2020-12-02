@@ -129,6 +129,9 @@ a:hover {
 .tlist {
   display: flex;
 }
+.type-list {
+  display: flex;
+}
 .type-list-item {
   margin-right: 30px;
   line-height: 26px;
