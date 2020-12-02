@@ -151,7 +151,9 @@
                     </div>
                     <!-- 加入购物车 -->
                     <div class="operate">
-                      <a href="###" class="sui-btn btn-red">加入购物车</a>
+                      <router-link to="/addcartsuccess" class="sui-btn btn-red"
+                        >加入购物车</router-link
+                      >
                       <a href="###" class="sui-btn btn-bordered">收藏</a>
                     </div>
                   </div>
@@ -159,7 +161,7 @@
               </ul>
             </div>
             <!-- 分页 -->
-             <!-- <div class="pagination">
+            <!-- <div class="pagination">
               <button disabled>上一页</button>
               <button class="active">1</button>
               <button>2</button>
