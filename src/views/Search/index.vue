@@ -55,23 +55,62 @@
             <div class="sui-navbar">
               <div class="sui-navbar-inner">
                 <ul class="sui-navbar-list">
-                  <li class="sui-navbar-item active">
-                    <a href="###"
+                  <li
+                    :class="{
+                      'sui-navbar-item': true,
+                      active: options.order.indexOf('1') > -1,
+                    }"
+                    @click="setOrder('1')"
+                  >
+                    <a
                       >综合
-                      <i class="iconfont icondown"></i>
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-jiantouarrow505': isAllDone,
+                          'icon-jiantouarrow499': !isAllDone,
+                        }"
+                      ></i>
                     </a>
                   </li>
                   <li class="sui-navbar-item">
-                    <a href="###">销量</a>
+                    <a>销量</a>
                   </li>
                   <li class="sui-navbar-item">
-                    <a href="###">新品</a>
+                    <a>新品</a>
                   </li>
                   <li class="sui-navbar-item">
-                    <a href="###">评价⬆</a>
+                    <a>评价</a>
                   </li>
-                  <li class="sui-navbar-item">
-                    <a href="###">价格⬇</a>
+                  <li
+                    :class="{
+                      'sui-navbar-item': true,
+                      active: options.order.indexOf('2') > -1,
+                    }"
+                    @click="setOrder('2')"
+                  >
+                    <a>
+                      价格
+                      <span>
+                        <i
+                          :class="{
+                            iconfont: true,
+                            'icon-jiantou': true,
+                            //当点击到价格时再去看给哪个箭头加未激活样式
+                            deactive:
+                              options.order.indexOf('2') > -1 && isPriceDone,
+                          }"
+                        ></i>
+                        <i
+                          :class="{
+                            iconfont: true,
+                            'icon-jiantouarrow486': true,
+                            deactive:
+                              options.order.indexOf('2') > -1 && !isPriceDone,
+                          }"
+                        ></i>
+                      </span>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -148,12 +187,14 @@ export default {
         category3Id: "", //三级分类Id
         categoryName: "", //分类名称
         keyword: "", //搜索内容（搜索关键字）
-        order: "", //排序 1 综合排序 2 价格排序 asc升序 desc降序
+        order: "1:desc", //排序 1 综合排序 2 价格排序 asc升序 desc降序
         pageNo: 1,
         pageSize: 5,
         props: [], //商品属性
         trademark: "", //品牌
       },
+      isAllDone: true, //控制综合方向
+      isPriceDone: false, //控制价格箭头方向
     };
   },
   components: {
@@ -236,6 +277,31 @@ export default {
       this.options.props.splice(index, 1);
       this.updateProductList();
     },
+    //设置排序方式
+    setOrder(order) {
+      let [orderNum, orderType] = this.options.order.split(":");
+      this.options.order = `${order}:${orderType}`;
+      //第二次点击的时候，箭头方向才会改变
+      if (order === orderNum) {
+        console.log(orderNum);
+        if (order === "1") {
+          this.isAllDone = !this.isAllDone; //改变综合的箭头方向
+          orderType = this.isAllDone ? "desc" : "asc";
+        } else {
+          this.isPriceDone = !this.isPriceDone;
+          orderType = this.isPriceDone ? "desc" : "asc";
+        }
+      } else {
+        if (order === "1") {
+          orderType = this.isAllDone ? "desc" : "asc";
+        } else {
+          this.isPriceDone = false; //保证第一点到价格的时候，箭头都是向上的
+          orderType = "asc";
+        }
+      }
+      this.options.order = `${order}:${orderType}`;
+      this.updateProductList();
+    },
   },
   mounted() {
     this.updateProductList();
@@ -296,11 +362,19 @@ export default {
 .sui-navbar-item {
   line-height: 18px;
   a {
-    display: block;
+    display: flex;
+    align-items: center;
     cursor: pointer;
     padding: 11px 15px;
     color: #777;
     text-decoration: none;
+    span {
+      line-height: 8px;
+      i {
+        display: flex;
+        flex-direction: column;
+      }
+    }
   }
   a:hover {
     color: rgb(79, 76, 212);
@@ -311,6 +385,9 @@ export default {
     background: #e1251b;
     color: #fff;
   }
+}
+.deactive {
+  color: rgba(255, 255, 255, 0.5);
 }
 .sui-navbar-inner {
   min-height: 40px;
