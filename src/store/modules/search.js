@@ -5,7 +5,8 @@ export default {
         productList:{
             trademarkList:[],
             attrsList:[],
-            goodsList:[]
+            goodsList:[],
+            total:0,
         }
     },
     getters: {
@@ -18,6 +19,9 @@ export default {
         goodsList(state) {
           return state.productList.goodsList;
         },
+        total(state) {
+            return state.productList.total;
+          },
     },
     actions:{
         async getProductionList({commit},data={}){

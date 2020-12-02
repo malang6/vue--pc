@@ -158,14 +158,17 @@
               </ul>
             </div>
             <!-- 分页 -->
-            <div class="pagination">
-              <button disabled>上一页</button>
-              <button class="active">1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>下一页</button>
-              <button disabled>共 9 条</button>
-            </div>
+            <el-pagination
+              background
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="options.pageNo"
+              :page-sizes="[5, 10, 15, 20]"
+              :page-size="5"
+              layout=" prev, pager, next, total, sizes,jumper"
+              :total="total"
+            >
+            </el-pagination>
           </div>
         </div>
       </div>
@@ -188,8 +191,8 @@ export default {
         categoryName: "", //分类名称
         keyword: "", //搜索内容（搜索关键字）
         order: "1:desc", //排序 1 综合排序 2 价格排序 asc升序 desc降序
-        pageNo: 1,
-        pageSize: 5,
+        pageNo: 1, //当前显示第几页
+        pageSize: 5, //每页显示几条
         props: [], //商品属性
         trademark: "", //品牌
       },
@@ -208,11 +211,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList", "total"]),
   },
   methods: {
     ...mapActions(["getProductionList"]),
-    updateProductList() {
+    updateProductList(pageNo = 1) {
       //先解构赋值 将searchText 从 this.$route.params中解构出来
       //searchText: keyword 这是将解构出来的searchText重命名为keyword
       const { searchText: keyword } = this.$route.params;
@@ -231,11 +234,10 @@ export default {
         category2Id,
         category3Id,
         categoryName,
+        pageNo,
       };
-
       //更新状态数据
       // this.options = options;
-
       //发请求
       this.getProductionList(this.options);
     },
@@ -301,6 +303,16 @@ export default {
       }
       this.options.order = `${order}:${orderType}`;
       this.updateProductList();
+    },
+    //每页显示多少条
+    handleSizeChange(pageSize) {
+      this.options.pageSize = pageSize;
+      this.updateProductList();
+    },
+    //显示那一页
+    handleCurrentChange(pageNo) {
+      // console.log("pageNo", pageNo);
+      this.updateProductList(pageNo);
     },
   },
   mounted() {
@@ -496,35 +508,5 @@ export default {
 }
 a:hover {
   color: rgb(79, 76, 212);
-}
-.pagination {
-  height: 28px;
-}
-button {
-  margin: 0 5px;
-  background-color: #f4f4f5;
-  color: #606266;
-  outline: none;
-  border-radius: 2px;
-  padding: 0 4px;
-  vertical-align: top;
-  display: inline-block;
-  font-size: 13px;
-  min-width: 35.5px;
-  height: 28px;
-  line-height: 28px;
-  cursor: pointer;
-  box-sizing: border-box;
-  text-align: center;
-  border: 0;
-}
-button[disabled] {
-  color: #c0c4cc;
-  cursor: not-allowed;
-}
-button.active {
-  cursor: not-allowed;
-  background-color: #409eff;
-  color: #fff;
 }
 </style>
