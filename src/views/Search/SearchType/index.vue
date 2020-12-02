@@ -9,6 +9,7 @@
             class="logo-item"
             v-for="trademark in trademarkList"
             :key="trademark.tmId"
+            @click="addBrand(`${trademark.tmId}:${trademark.tmName}`)"
           >
             {{ trademark.tmName }}
           </li>
@@ -38,6 +39,7 @@
             class="type-list-item"
             v-for="(attrValue, index) in attrs.attrValueList"
             :key="index"
+            @click="$emit('add-prop',`${attrs.attrId}:${attrValue}:${attrs.attrName}`)"
           >
             <a>{{ attrValue }}</a>
           </li>
@@ -51,6 +53,9 @@
 import { mapGetters } from "vuex";
 export default {
   name: "SearchType",
+  props: {
+    addBrand: Function,
+  },
   computed: {
     ...mapGetters(["trademarkList", "attrsList"]),
   },

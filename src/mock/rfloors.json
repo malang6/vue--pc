@@ -15,7 +15,7 @@
     "carouselList|2": [
       {
         "id|+1": 1,
-        "imgUrl": "@image('340x360', '@color')"
+        "imgUrl": "@image('340x360', '@color','#fff','@cname')"
       }
     ],
     "recommendList|4": [
