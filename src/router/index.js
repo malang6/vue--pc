@@ -5,6 +5,7 @@ import Home from "@views/Home"
 import Login from "@views/Login"
 import Register from "@views/Register"
 import Search from "@views/Search"
+import ShopCart from "@views/ShopCart"
 
 //重写$router的push和replace方法(解决编程式导航重复点击时报错问题)
 const push = VueRouter.prototype.push;
@@ -55,6 +56,10 @@ export default new VueRouter({
             //?表示parmas参数可选的
             path:'/search/:searchText?',
             component:Search,
+        },
+        {
+            path:'/shopcart',
+            component:ShopCart,
         },
     ]
 })

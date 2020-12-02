@@ -157,6 +157,9 @@ h3 {
   text-decoration: none;
   cursor: pointer;
 }
+.fr:hover {
+  color: rgb(79, 76, 212);
+}
 .like-list {
   border: 1px solid #e4e4e4;
   overflow: hidden;

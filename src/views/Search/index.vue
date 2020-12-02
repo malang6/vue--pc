@@ -96,7 +96,8 @@
                           :class="{
                             iconfont: true,
                             'icon-jiantou': true,
-                            //当点击到价格时再去看给哪个箭头加未激活样式
+                            //当点击到价格时再去看给哪个箭头加未激活样式 deactive是未激活的样式 isPriceDone初始值是false
+                            //indexOf('2')是看有没有2 有找到返回对应下标，没找到返回-1
                             deactive:
                               options.order.indexOf('2') > -1 && isPriceDone,
                           }"
@@ -158,6 +159,14 @@
               </ul>
             </div>
             <!-- 分页 -->
+             <!-- <div class="pagination">
+              <button disabled>上一页</button>
+              <button class="active">1</button>
+              <button>2</button>
+              <button>3</button>
+              <button>下一页</button>
+              <button disabled>共 9 条</button>
+            </div> -->
             <el-pagination
               background
               @size-change="handleSizeChange"
@@ -215,6 +224,7 @@ export default {
   },
   methods: {
     ...mapActions(["getProductionList"]),
+    //更新商品列表
     updateProductList(pageNo = 1) {
       //先解构赋值 将searchText 从 this.$route.params中解构出来
       //searchText: keyword 这是将解构出来的searchText重命名为keyword
@@ -228,7 +238,7 @@ export default {
       // const options={
       //直接修改数据并更新状态
       this.options = {
-        ...this.options,
+        ...this.options, //先将初始的options展开，当下面的有值则直接覆盖
         keyword,
         category1Id,
         category2Id,
@@ -282,10 +292,8 @@ export default {
     //设置排序方式
     setOrder(order) {
       let [orderNum, orderType] = this.options.order.split(":");
-      this.options.order = `${order}:${orderType}`;
       //第二次点击的时候，箭头方向才会改变
       if (order === orderNum) {
-        console.log(orderNum);
         if (order === "1") {
           this.isAllDone = !this.isAllDone; //改变综合的箭头方向
           orderType = this.isAllDone ? "desc" : "asc";
@@ -294,10 +302,11 @@ export default {
           orderType = this.isPriceDone ? "desc" : "asc";
         }
       } else {
+        //当第一次点 综合 的时候，要保证orderType和箭头方向对应
         if (order === "1") {
           orderType = this.isAllDone ? "desc" : "asc";
         } else {
-          this.isPriceDone = false; //保证第一点到价格的时候，箭头都是向上的
+          this.isPriceDone = false; //保证第一次点到 价格 的时候，箭头都是向上的
           orderType = "asc";
         }
       }
@@ -309,7 +318,7 @@ export default {
       this.options.pageSize = pageSize;
       this.updateProductList();
     },
-    //显示那一页
+    //显示哪一页
     handleCurrentChange(pageNo) {
       // console.log("pageNo", pageNo);
       this.updateProductList(pageNo);
@@ -387,9 +396,6 @@ export default {
         flex-direction: column;
       }
     }
-  }
-  a:hover {
-    color: rgb(79, 76, 212);
   }
 }
 .active {
@@ -509,4 +515,34 @@ export default {
 a:hover {
   color: rgb(79, 76, 212);
 }
+/* .pagination {
+  height: 28px;
+}
+button {
+  margin: 0 5px;
+  background-color: #f4f4f5;
+  color: #606266;
+  outline: none;
+  border-radius: 2px;
+  padding: 0 4px;
+  vertical-align: top;
+  display: inline-block;
+  font-size: 13px;
+  min-width: 35.5px;
+  height: 28px;
+  line-height: 28px;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-align: center;
+  border: 0;
+}
+button[disabled] {
+  color: #c0c4cc;
+  cursor: not-allowed;
+}
+button.active {
+  cursor: not-allowed;
+  background-color: #409eff;
+  color: #fff;
+} */
 </style>

@@ -139,9 +139,6 @@ export default {
 .on {
   background-position: -35px 0;
 }
-a:hover {
-  color: rgb(79, 76, 212);
-}
 .rank-list {
   display: flex;
   padding: 10px;

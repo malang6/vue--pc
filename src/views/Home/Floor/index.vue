@@ -95,9 +95,6 @@ a {
   padding-top: 1px;
   color: #e1251b;
 }
-a:hover {
-  color: rgb(79, 76, 212);
-}
 .item::after {
   content: "|";
   padding: 0 10px;

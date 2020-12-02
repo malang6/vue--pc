@@ -15,7 +15,7 @@
         </div>
         <div class="header-top-right">
           <a href="###">我的订单</a>
-          <a href="###">我的购物车</a>
+          <router-link to="/shopcart">我的购物车</router-link>
           <a href="###">我的尚品汇</a>
           <a href="###">尚品汇会员</a>
           <a href="###">企业采购</a>
@@ -144,9 +144,6 @@ export default {
 a {
   text-decoration: none;
   color: #666;
-}
-a:hover {
-  color: rgb(79, 76, 212);
 }
 .header-free-rejister {
   border-left: 1px solid #b3aeae;

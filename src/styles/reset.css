@@ -131,3 +131,7 @@ body {
     min-width: 1200px;
     margin: 0 auto;
 }
+
+a:hover {
+    color: rgb(79, 76, 212);
+}

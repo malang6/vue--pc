@@ -20,26 +20,25 @@
         <a href="###">更多</a>
       </div>
     </div>
-
-    <div class="type-wrap tlist">
-      <div class="key">杨帅</div>
-      <div class="value">
-        <ul class="type-list">
-          <li class="type-list-item">
-            <a>听得懂尘土飞扬规划</a>
-          </li>
-        </ul>
-      </div>
-    </div>
     <div class="type-wrap tlist" v-for="attrs in attrsList" :key="attrs.attrId">
       <div class="key">{{ attrs.attrName }}</div>
       <div class="value">
         <ul class="type-list">
-          <li
+          <!--  <li
             class="type-list-item"
             v-for="(attrValue, index) in attrs.attrValueList"
             :key="index"
             @click="$emit('add-prop',`${attrs.attrId}:${attrValue}:${attrs.attrName}`)"
+          > -->
+          <li
+            class="type-list-item"
+            v-for="(attrValue, index) in attrs.attrValueList"
+            :key="index"
+            @click="
+              $listeners['add-prop'](
+                `${attrs.attrId}:${attrValue}:${attrs.attrName}`
+              )
+            "
           >
             <a>{{ attrValue }}</a>
           </li>
@@ -64,7 +63,7 @@ export default {
 
 <style lang="less" scoped>
 .key {
-  width: 100px;
+  width: 120px;
   background: #f1f1f1;
   line-height: 26px;
   text-align: right;
@@ -75,9 +74,6 @@ export default {
   overflow: hidden;
   padding: 10px 90px 0 15px;
   color: #333;
-}
-a:hover {
-  color: rgb(79, 76, 212);
 }
 .seletor {
   border: 1px solid #ddd;
@@ -96,6 +92,10 @@ a:hover {
 }
 .logo-list-item {
   display: flex;
+  flex-wrap: wrap;
+}
+a:hover{
+  cursor: pointer;
 }
 .logo-item {
   border: 1px solid #e4e4e4;
