@@ -125,9 +125,9 @@
                   <div class="list-wapper">
                     <!-- 商品图片 -->
                     <div class="g-img">
-                      <a href="###">
+                      <router-link :to="`/detail/${goods.id}`">
                         <img :src="goods.defaultImg" class="img" />
-                      </a>
+                      </router-link>
                     </div>
                     <!-- 商品价格 -->
                     <div class="price">
@@ -137,7 +137,9 @@
                     </div>
                     <!-- 商品描述 -->
                     <div class="attr">
-                      <a href="###">{{ goods.title }}</a>
+                      <router-link :to="`/detail/${goods.id}`">{{
+                        goods.title
+                      }}</router-link>
                     </div>
                     <!-- 商品评价 -->
                     <div class="commit">
