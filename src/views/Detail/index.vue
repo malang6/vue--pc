@@ -18,17 +18,16 @@
           <!--放大镜效果-->
           <Zoom />
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList :skuImageList="skuInfo.skuImageList"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
             <h3 class="InfoName">
-              <!-- Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机 -->
               {{ skuInfo.skuName }}
             </h3>
             <p class="news">
-              推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返
+             {{skuInfo.skuDesc}}
             </p>
             <div class="priceArea">
               <div class="priceArea1">

@@ -33,6 +33,15 @@
       下一页
     </button>
     <button disabled>共 {{ total }} 条</button>
+    <span>
+      前往
+      <input
+        type="text"
+        v-model="page"
+        @keyup.enter="myCurrentPage = parseInt(page)"
+      />
+      页
+    </span>
   </div>
 </template>
 
@@ -50,7 +59,7 @@ export default {
       type: Number,
       default: 5,
     },
-    //页码数量
+    //页码按钮数量
     pagerCount: {
       type: Number,
       validator(val) {
@@ -69,6 +78,7 @@ export default {
       //为了方便修改myCurrentPage，定义data数据
       //原因：props数据是只读的
       myCurrentPage: this.currentPage,
+      page: 1,
     };
   },
   computed: {
@@ -116,12 +126,13 @@ export default {
     mapBtnCount() {
       const { start, end } = this.startEnd;
       const count = end - start + 1;
-      return count > 1 ? count : 0;
+      return count >= 1 ? count : 0;
     },
   },
   watch: {
     // 让每次页码发生变化加载新数据
     myCurrentPage(pageNo) {
+      this.page = pageNo;
       this.$emit("current-change", pageNo);
       //   this.$listeners["current-change"](pageNo);
     },
@@ -141,6 +152,8 @@ export default {
 
 <style lang="less" scoped>
 .pagination {
+  display: flex;
+  align-items: center;
   height: 28px;
 }
 button {
@@ -166,8 +179,18 @@ button[disabled] {
   cursor: not-allowed;
 }
 button.active {
-  //   cursor: not-allowed;
   background-color: #409eff;
   color: #fff;
+}
+span {
+  font-size: 14px;
+  margin-left: 10px;
+  color: #606266;
+}
+input {
+  width: 35px;
+  outline: none;
+  color: #606266;
+  text-align: center;
 }
 </style>
