@@ -58,7 +58,7 @@
                   <li
                     :class="{
                       'sui-navbar-item': true,
-                      active: options.order.indexOf('1') > -1,
+                      active: setOrderType('1'),
                     }"
                     @click="setOrder('1')"
                   >
@@ -85,7 +85,7 @@
                   <li
                     :class="{
                       'sui-navbar-item': true,
-                      active: options.order.indexOf('2') > -1,
+                      active: setOrderType('2'),
                     }"
                     @click="setOrder('2')"
                   >
@@ -98,16 +98,14 @@
                             'icon-jiantou': true,
                             //当点击到价格时再去看给哪个箭头加未激活样式 deactive是未激活的样式 isPriceDone初始值是false
                             //indexOf('2')是看有没有2 有找到返回对应下标，没找到返回-1
-                            deactive:
-                              options.order.indexOf('2') > -1 && isPriceDone,
+                            deactive: setOrderType('2') && isPriceDone,
                           }"
                         ></i>
                         <i
                           :class="{
                             iconfont: true,
                             'icon-jiantouarrow486': true,
-                            deactive:
-                              options.order.indexOf('2') > -1 && !isPriceDone,
+                            deactive: setOrderType('2') && !isPriceDone,
                           }"
                         ></i>
                       </span>
@@ -161,15 +159,7 @@
               </ul>
             </div>
             <!-- 分页 -->
-            <!-- <div class="pagination">
-              <button disabled>上一页</button>
-              <button class="active">1</button>
-              <button>2</button>
-              <button>3</button>
-              <button>下一页</button>
-              <button disabled>共 9 条</button>
-            </div> -->
-            <el-pagination
+            <!-- <el-pagination
               background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
@@ -179,7 +169,14 @@
               layout=" prev, pager, next, total, sizes,jumper"
               :total="total"
             >
-            </el-pagination>
+            </el-pagination> -->
+            <Pagination
+              @current-change="handleCurrentChange"
+              :current-page="options.pageNo"
+              :page-size="5"
+              :pager-count="7"
+              :total="total"
+            />
           </div>
         </div>
       </div>
@@ -191,6 +188,7 @@
 import { mapActions, mapGetters } from "vuex";
 import SearchType from "./SearchType";
 import TypeNav from "@comps/TypeNav";
+import Pagination from "@comps/Pagination";
 export default {
   name: "Search",
   data() {
@@ -214,6 +212,7 @@ export default {
   components: {
     TypeNav,
     SearchType,
+    Pagination,
   },
   watch: {
     //监听路径，当搜索内容变了之后，重新更新并发请求
@@ -273,6 +272,7 @@ export default {
     },
     //添加品牌并更新数据
     addBrand(trademark) {
+      if (this.options.trademark) return;
       this.options.trademark = trademark;
       this.updateProductList();
     },
@@ -283,6 +283,7 @@ export default {
     },
     //添加商品属性并更新数据
     addProp(prop) {
+      if (this.options.props.indexOf(prop) > -1) return;
       this.options.props.push(prop);
       this.updateProductList();
     },
@@ -314,6 +315,10 @@ export default {
       }
       this.options.order = `${order}:${orderType}`;
       this.updateProductList();
+    },
+    //排序类型 1 还是 2
+    setOrderType(type) {
+      return this.options.order.indexOf(type) > -1;
     },
     //每页显示多少条
     handleSizeChange(pageSize) {
@@ -517,34 +522,4 @@ export default {
 a:hover {
   color: rgb(79, 76, 212);
 }
-/* .pagination {
-  height: 28px;
-}
-button {
-  margin: 0 5px;
-  background-color: #f4f4f5;
-  color: #606266;
-  outline: none;
-  border-radius: 2px;
-  padding: 0 4px;
-  vertical-align: top;
-  display: inline-block;
-  font-size: 13px;
-  min-width: 35.5px;
-  height: 28px;
-  line-height: 28px;
-  cursor: pointer;
-  box-sizing: border-box;
-  text-align: center;
-  border: 0;
-}
-button[disabled] {
-  color: #c0c4cc;
-  cursor: not-allowed;
-}
-button.active {
-  cursor: not-allowed;
-  background-color: #409eff;
-  color: #fff;
-} */
 </style>
