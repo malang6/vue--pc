@@ -18,7 +18,7 @@
           <!--放大镜效果-->
           <Zoom />
           <!-- 小图列表 -->
-          <ImageList :skuImageList="skuInfo.skuImageList"/>
+          <ImageList :skuImageList="skuInfo.skuImageList" />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -27,7 +27,7 @@
               {{ skuInfo.skuName }}
             </h3>
             <p class="news">
-             {{skuInfo.skuDesc}}
+              {{ skuInfo.skuDesc }}
             </p>
             <div class="priceArea">
               <div class="priceArea1">
@@ -79,9 +79,15 @@
                 <dt class="title">{{ spuSaleAttr.saleAttrName }}</dt>
                 <dd
                   changepirce="0"
-                  class="active"
+                  :class="{ active: spuSaleAttrValue.isChecked === '1' }"
                   v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
                   :key="spuSaleAttrValue.id"
+                  @click="
+                    chooseActive(
+                      spuSaleAttrValue,
+                      spuSaleAttr.spuSaleAttrValueList
+                    )
+                  "
                 >
                   {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
@@ -89,9 +95,9 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" v-model="count" />
+                <a class="plus" @click="count = count + 1">+</a>
+                <a class="mins" @click="count = count - 1">-</a>
               </div>
               <div class="add">
                 <a href="javascript:">加入购物车</a>
@@ -340,14 +346,28 @@ import TypeNav from "@comps/TypeNav";
 
 export default {
   name: "Detail",
+  data() {
+    return {
+      count: 1,
+    };
+  },
   computed: {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
   },
   methods: {
     ...mapActions(["getProductListDetail"]),
+    chooseActive(value, valueList) {
+        // 如果指定的value已经选中, 直接结束
+        if (value.isChecked==='1') return
+        // 将原本选中变为不选中
+        valueList.forEach(value => value.isChecked = '0')
+        // 将指定的value选中
+        value.isChecked = '1'
+    },
   },
-  mounted() {
-    this.getProductListDetail(this.$route.params.id);
+  async mounted() {
+    await this.getProductListDetail(this.$route.params.id);
+    this.$bus.$emit("getImgUrl", this.skuInfo.skuImageList[0].imgUrl);
   },
   components: {
     ImageList,

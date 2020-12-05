@@ -177,7 +177,7 @@ h2 {
   width: 210px;
   height: 461px;
   background-color: #fafafa;
-  z-index: 99;
+  z-index: 999;
 }
 h3 {
   line-height: 30px;

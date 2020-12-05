@@ -48,6 +48,7 @@
 <script>
 export default {
   name: "Pagination",
+  // current-page props传递的是会自动将属性名都转化为小驼峰命名，使用的时候既可以使用传的时候带下划线的 current-page 也可以用小驼峰
   props: {
     //当前的页码
     currentPage: {

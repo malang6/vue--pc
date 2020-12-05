@@ -6,7 +6,10 @@
         v-for="skuImage in skuImageList"
         :key="skuImage.id"
       >
-        <img :src="skuImage.imgUrl" />
+        <img
+          :src="skuImage.imgUrl"
+          @click="$bus.$emit('getImgUrl', skuImage.imgUrl)"
+        />
       </div>
     </div>
     <div class="swiper-button-next"></div>
@@ -15,11 +18,31 @@
 </template>
 
 <script>
-// import Swiper from "swiper";
+import Swiper, { Navigation } from "swiper";
+Swiper.use([Navigation]);
 export default {
   name: "ImageList",
   props: {
     skuImageList: Array,
+  },
+  watch: {
+    skuImageList: {
+      handler() {
+        this.$nextTick(() => {
+          new Swiper(".swiper-container", {
+            loop: true,
+            slidesPerView: 5,
+            slidesPerGroup: 5,
+            // 如果需要前进后退按钮
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+          });
+        });
+      },
+      immediate: true,
+    },
   },
 };
 </script>
