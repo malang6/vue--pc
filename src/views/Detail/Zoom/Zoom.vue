@@ -28,23 +28,24 @@ export default {
   },
   methods: {
     maskMove(e) {
+      //获取鼠标距离元素边缘的距离
       let { offsetL, offsetT } = { offsetL: e.offsetX, offsetT: e.offsetY };
-
+      //获取event元素的宽高
       let { offsetW, offsetH } = {
         offsetW: this.$refs.event.offsetWidth / 2,
         offsetH: this.$refs.event.offsetHeight / 2,
       };
-
+      //获取mask蒙版的宽高
       let { maskOffsetW, maskOffsetH } = {
         maskOffsetW: this.$refs.mask.offsetWidth / 2,
         maskOffsetH: this.$refs.mask.offsetHeight / 2,
       };
-
+      //计算蒙版的偏移距离  
       let { moveL, moveT } = {
         moveL: offsetL - maskOffsetW,
         moveT: offsetT - maskOffsetH,
       };
-
+      //边界条件
       if (moveL > offsetW) {
         moveL = offsetW;
       } else if (moveL < 0) {

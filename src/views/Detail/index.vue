@@ -95,12 +95,16 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" v-model="count" />
-                <a class="plus" @click="count = count + 1">+</a>
-                <a class="mins" @click="count = count - 1">-</a>
+                <el-input-number
+                  class="input-number"
+                  v-model="skuNum"
+                  controls-position="right"
+                  :min="1"
+                  :max="100"
+                ></el-input-number>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="addCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -348,21 +352,31 @@ export default {
   name: "Detail",
   data() {
     return {
-      count: 1,
+      skuNum: 1,
     };
   },
   computed: {
     ...mapGetters(["categoryView", "skuInfo", "spuSaleAttrList"]),
   },
   methods: {
-    ...mapActions(["getProductListDetail"]),
+    ...mapActions(["getProductListDetail", "addToCart"]),
+
     chooseActive(value, valueList) {
-        // 如果指定的value已经选中, 直接结束
-        if (value.isChecked==='1') return
-        // 将原本选中变为不选中
-        valueList.forEach(value => value.isChecked = '0')
-        // 将指定的value选中
-        value.isChecked = '1'
+      // 如果指定的value已经选中, 直接结束
+      if (value.isChecked === "1") return;
+      // 将原本选中变为不选中
+      valueList.forEach((value) => (value.isChecked = "0"));
+      // 将指定的value选中
+      value.isChecked = "1";
+    },
+    //加入购物车
+    async addCart() {
+      try {
+        await this.addToCart({ skuId: this.skuInfo.id, skuNum: this.skuNum });
+        this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   async mounted() {
@@ -544,8 +558,10 @@ export default {
               width: 48px;
               position: relative;
               float: left;
-              margin-right: 15px;
-
+              margin-right: 70px;
+              .input-number {
+                width: 100px;
+              }
               .itxt {
                 width: 38px;
                 height: 37px;

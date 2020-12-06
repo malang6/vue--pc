@@ -13,7 +13,7 @@
             />
             <div class="right-info">
               <p class="title">IphoneXR--11</p>
-              <p class="attr">颜色：WFZ5099IH/5L钛金釜内胆 数量：1</p>
+              <p class="attr">颜色：WFZ5099IH/5L钛金釜内胆 数量：{{$route.query.skuNum}}</p>
             </div>
           </div>
         </div>

@@ -12,61 +12,43 @@
           <div class="cart-th6 w6">操作</div>
         </div>
         <div class="cart-body">
-          <ul class="cart-list">
+          <ul class="cart-list" v-for="cart in cartList" :key="cart.id">
             <li class="cart-list-con1 w1">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                v-model="cart.isChecked"
+                @click="
+                  checkCart({ skuId: cart.skuId, isChecked: cart.isChecked })
+                "
+              />
             </li>
             <li class="cart-list-con2 w2">
-              <img
-                src="http://182.92.128.115:8080/group1/M00/00/0F/rBFUDF7JsSCAOfNkAADpIchA8Kg371.jpg"
-              />
-              <div class="item-mag">aa</div>
+              <img :src="cart.imgUrl" />
+              <div class="item-mag">{{ cart.skuName }}</div>
             </li>
             <li class="cart-list-con3 w3">
-              <span class="price">3400</span>
+              <span class="price">{{ cart.skuPrice }}</span>
             </li>
             <li class="cart-list-con4 w4">
               <div class="count">
-                <a class="mins count-btn">-</a>
-                <input type="text" class="itxt" />
-                <a class="plus count-btn">+</a>
+                <a
+                  class="mins count-btn"
+                  @click="addToCart({ skuId: cart.skuId, skuNum: -1 })"
+                  >-</a
+                >
+                <input type="text" class="itxt" v-model="cart.skuNum" />
+                <a
+                  class="plus count-btn"
+                  @click="addToCart({ skuId: cart.skuId, skuNum: 1 })"
+                  >+</a
+                >
               </div>
             </li>
             <li class="cart-list-con5 w5">
-              <span class="sum">17000000</span>
+              <span class="sum">{{ cart.skuPrice * cart.skuNum }}</span>
             </li>
             <li class="cart-list-con6 w6">
-              <a href="###" class="del">删除</a>
-              <br />
-              <a href="###" class="move">移到收藏</a>
-            </li>
-          </ul>
-
-          <ul class="cart-list">
-            <li class="cart-list-con1 w1">
-              <input type="checkbox" />
-            </li>
-            <li class="cart-list-con2 w2">
-              <img
-                src="http://182.92.128.115:8080/group1/M00/00/0F/rBFUDF7JsSCAcEknAAD2GX_A-0U431.jpg"
-              />
-              <div class="item-mag">荣耀V30 Pro</div>
-            </li>
-            <li class="cart-list-con3 w3">
-              <span class="price">3400</span>
-            </li>
-            <li class="cart-list-con4 w4">
-              <div class="count">
-                <a class="mins count-btn">-</a>
-                <input type="text" class="itxt" />
-                <a class="plus count-btn">+</a>
-              </div>
-            </li>
-            <li class="cart-list-con5 w5">
-              <span class="sum">17000000</span>
-            </li>
-            <li class="cart-list-con6 w6">
-              <a href="###" class="del">删除</a>
+              <a class="del" @click="del(cart.skuId)">删除</a>
               <br />
               <a href="###" class="move">移到收藏</a>
             </li>
@@ -74,23 +56,23 @@
         </div>
         <div class="cart-tool">
           <div class="choose-inp">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="isAllChecked" />
             <span>全选</span>
           </div>
           <div class="option">
-            <a href="###">删除选中的商品</a>
+            <a @click="delAllChecked">删除选中的商品</a>
             <a href="###">移到我的关注</a>
             <a href="###">清除下柜商品</a>
           </div>
           <div class="moneybox">
             <div class="choosed">
               已选择
-              <span>5300</span>
+              <span>{{ totalCount }}</span>
               件商品
             </div>
             <div class="sumprice">
               <em>总价（不含运费）：</em>
-              <i class="summoney">1820000</i>
+              <i class="summoney">{{ totalPrice }}</i>
             </div>
             <div class="sumbtn">
               <a href="###" class="sum-btn">结算</a>
@@ -103,12 +85,67 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 export default {
   name: "ShopCart",
+  computed: {
+    ...mapState({
+      cartList: (state) => state.shopcart.cartList,
+    }),
+    //计算是否全选中
+    isAllChecked: {
+      get() {
+        const sum = this.cartList.reduce((p, c) => p + c.skuNum, 0);
+        return this.totalCount && this.totalCount === sum;
+      },
+      set(val) {
+        this.cartList.map((cart) => (cart.isChecked = Number(val)));
+      },
+    },
+    //计算总数
+    totalCount() {
+      return this.cartList.reduce((p, c) => {
+        if (c.isChecked === 1) {
+          p = p + c.skuNum;
+        }
+        return p;
+      }, 0);
+    },
+    //计算总价钱
+    totalPrice() {
+      return this.cartList.reduce((p, c) => {
+        if (c.isChecked === 1) {
+          p = p + c.skuPrice * c.skuNum;
+        }
+        return p;
+      }, 0);
+    },
+  },
+  methods: {
+    ...mapActions(["getCartList", "addToCart", "delCart", "checkCart"]),
+    // 点击删除按钮，删除购物车商品
+    del(skuId) {
+      this.delCart(skuId);
+    },
+    // 删除所有已选中商品
+    delAllChecked() {
+      this.cartList.forEach((cart) => {
+        if (cart.isChecked) {
+          this.delCart(cart.skuId);
+        }
+      });
+    },
+  },
+  mounted() {
+    this.getCartList();
+  },
 };
 </script>
 
 <style lang="less" scoped>
+a:hover {
+  cursor: pointer;
+}
 .shopcart-area {
   width: 1200px;
   margin: 0 auto;

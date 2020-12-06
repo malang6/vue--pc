@@ -110,6 +110,7 @@ export default {
 
     goSearch(e) {
       // console.log(e.target.dataset);
+      //自定义属性名会去获取的时候都是小写
       const { categoryname, categoryid, categorytype } = e.target.dataset;
       //当前点击的如果不是a标签，则不跳转。因为a标签上有categoryname 所以可以通过有没有这个值来判断，没有就直接return，不进行跳转
       if (!categoryname) return;
