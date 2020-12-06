@@ -27,7 +27,24 @@ export default {
        async checkCart({commit},{skuId,isChecked}){
             await reqCheckCart(skuId,isChecked)
             commit("CHECK_CART",{skuId,isChecked})
-       }    
+       },    
+       // 全选处理
+       async checkAllCart ({state, dispatch}, isChecked) {
+        // 确定对应的isChecked值
+        const ischecked =  isChecked ? '1' : '0'
+        let promises = []
+        // 遍历每个购物项
+        state.cartList.forEach(item => {
+          // 购物项的状态与目标状态不一样
+          if (item.isChecked!=ischecked) {
+            // 分发给checkCart, 得到其返回的promise对象
+            const promise = dispatch("checkCart",{skuId: item.skuId, isChecked:ischecked})
+            // 保存到数组中
+            promises.push(promise)
+          }
+        })
+        return Promise.all(promises) 
+      },
     },
     mutations:{
         GET_CART_LIST(state,cartList){
@@ -46,14 +63,16 @@ export default {
         CART_LIST(state,skuId){
             state.cartList = state.cartList.filter(cart=>cart.skuId !== skuId)
         },
+
         // 切换商品选中状态
         CHECK_CART(state,{skuId,isChecked}){
+            const ischecked = isChecked ? '1' : '0'
             state.cartList = state.cartList.map(cart=>{
                 if(cart.skuId === skuId){
-                    cart.isChecked = Number(!isChecked)
+                    cart.isChecked = ischecked
                 }
                 return cart
             })
-        }
+        },
     }
 }

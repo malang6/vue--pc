@@ -16,10 +16,8 @@
             <li class="cart-list-con1 w1">
               <input
                 type="checkbox"
-                v-model="cart.isChecked"
-                @click="
-                  checkCart({ skuId: cart.skuId, isChecked: cart.isChecked })
-                "
+                :checked="cart.isChecked === 1"
+                @change="checkCartHandle(cart)"
               />
             </li>
             <li class="cart-list-con2 w2">
@@ -98,8 +96,17 @@ export default {
         const sum = this.cartList.reduce((p, c) => p + c.skuNum, 0);
         return this.totalCount && this.totalCount === sum;
       },
-      set(val) {
-        this.cartList.map((cart) => (cart.isChecked = Number(val)));
+      // 当用户点击改变勾选框的勾选状态时调用
+      async set(value) {
+        // 标识当前是否勾选的布尔值true/false
+        try {
+          await this.checkAllCart(value);
+          // 如果成功了, 重新获取购物车数据显示
+          this.getCartList();
+        } catch (error) {
+          // 如果失败了, 提示
+          alert(error.message);
+        }
       },
     },
     //计算总数
@@ -122,7 +129,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["getCartList", "addToCart", "delCart", "checkCart"]),
+    ...mapActions([
+      "getCartList",
+      "addToCart",
+      "delCart",
+      "checkCart",
+      "checkAllCart",
+    ]),
     // 点击删除按钮，删除购物车商品
     del(skuId) {
       if (window.confirm("您确定要删除吗?")) {
@@ -137,6 +150,20 @@ export default {
             this.delCart(cart.skuId);
           }
         });
+      }
+    },
+
+    async checkCartHandle(cart) {
+      // 准备数据
+      const skuId = cart.skuId;
+      const isChecked = cart.isChecked === 1 ? "0" : "1";
+      try {
+        await this.checkCart({ skuId, isChecked });
+        // 如果成功了, 重新获取购物车数据显示
+        this.getCartList();
+      } catch (error) {
+        // 如果失败了, 提示
+        alert(error.message);
       }
     },
   },

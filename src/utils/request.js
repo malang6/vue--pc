@@ -41,7 +41,7 @@ instance.interceptors.request.use(
     (config)=>{
         //进度条开始
         NProgress.start()
-
+        // 将临时id添加到请求头上，每次发送请求就都会携带上
         config.headers.userTempId = userTempId;
 
         return config;
