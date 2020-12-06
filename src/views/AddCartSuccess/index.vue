@@ -9,16 +9,20 @@
         <div class="left-goods">
           <div class="left-img">
             <img
-              src="http://182.92.128.115:8080/group1/M00/00/0D/rBFUDF7G99eAd5v_AAVf81560TE840.png"
+              :src="skuInfo.skuDefaultImg"
             />
             <div class="right-info">
-              <p class="title">IphoneXR--11</p>
-              <p class="attr">颜色：WFZ5099IH/5L钛金釜内胆 数量：{{$route.query.skuNum}}</p>
+              <p class="title">{{skuInfo.skuName}}</p>
+              <p class="attr">
+                颜色：WFZ5099IH/5L钛金釜内胆 数量：{{ $route.query.skuNum }}
+              </p>
             </div>
           </div>
         </div>
         <div class="right-gocart">
-          <a href="###">查看商品详情</a>
+          <router-link :to="`/detail/${skuInfo.id}`"
+            >查看商品详情</router-link
+          >
           <router-link to="/shopcart">去购物车结算 ></router-link>
         </div>
       </div>
@@ -29,6 +33,15 @@
 <script>
 export default {
   name: "AddCartSuccess",
+  data() {
+    return {
+      skuInfo: {},
+    };
+  },
+  mounted() {
+    const skuInfo = sessionStorage.getItem("skuInfo");
+    this.skuInfo = JSON.parse(skuInfo)
+  },
 };
 </script>
 

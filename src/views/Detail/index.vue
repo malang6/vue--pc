@@ -373,6 +373,8 @@ export default {
     async addCart() {
       try {
         await this.addToCart({ skuId: this.skuInfo.id, skuNum: this.skuNum });
+        // 组件切换是将上前的卸载在去加载下一个 当前还没有卸载时，下一个路由组件不存在的 所以下面这个不能使用全局事件总线
+        sessionStorage.setItem("skuInfo", JSON.stringify(this.skuInfo));
         this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
       } catch (e) {
         console.log(e);
