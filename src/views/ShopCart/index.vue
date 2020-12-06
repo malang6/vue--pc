@@ -125,15 +125,19 @@ export default {
     ...mapActions(["getCartList", "addToCart", "delCart", "checkCart"]),
     // 点击删除按钮，删除购物车商品
     del(skuId) {
-      this.delCart(skuId);
+      if (window.confirm("您确定要删除吗?")) {
+        this.delCart(skuId);
+      }
     },
     // 删除所有已选中商品
     delAllChecked() {
-      this.cartList.forEach((cart) => {
-        if (cart.isChecked) {
-          this.delCart(cart.skuId);
-        }
-      });
+      if (window.confirm("您确定要清空购物车吗?")) {
+        this.cartList.forEach((cart) => {
+          if (cart.isChecked) {
+            this.delCart(cart.skuId);
+          }
+        });
+      }
     },
   },
   mounted() {
