@@ -29,17 +29,30 @@
             </li>
             <li class="cart-list-con4 w4">
               <div class="count">
-                <a
+                <button
                   class="mins count-btn"
+                  :disabled="cart.skuNum <= 1"
                   @click="addToCart({ skuId: cart.skuId, skuNum: -1 })"
-                  >-</a
                 >
-                <input type="text" class="itxt" v-model="cart.skuNum" />
-                <a
+                  -
+                </button>
+                <!-- :value="cart.skuNum" 这里要使用input就不能使用v-model绑定,因为v-model已经有了input事件.要使用value -->
+                <input
+                  autocomplete="off"
+                  minnum="1"
+                  type="text"
+                  class="itxt"
+                  :value="cart.skuNum"
+                  @input="formatSkuNum"
+                  @blur="update(cart.skuId, cart.skuNum, $event)"
+                />
+                <button
                   class="plus count-btn"
+                  :disabled="cart.skuNum >= 10"
                   @click="addToCart({ skuId: cart.skuId, skuNum: 1 })"
-                  >+</a
                 >
+                  +
+                </button>
               </div>
             </li>
             <li class="cart-list-con5 w5">
@@ -168,6 +181,28 @@ export default {
         alert(error.message);
       }
     },
+    //input框输入，正则校验：只允许输入数字 不是数字的就替换为空
+    formatSkuNum(e) {
+      let skuNum = +e.target.value.replace(/\D+/g, "");
+      if (skuNum < 1) {
+        // 商品数量不能小于1
+        skuNum = 1;
+      } else if (skuNum > 10) {
+        // 商品数量不能大于库存(假设库存是10)
+        skuNum = 10;
+      }
+      e.target.value = skuNum;
+    },
+    //
+    update(skuId, skuNum, e) {
+      // console.log(e.target.value, skuNum);
+
+      //当输入的值没有改变的时候,就不要发请求了  e.target.value得到的是字符串,+可以将其转化为Number
+      if (+e.target.value === skuNum) return;
+
+      //传过去的skuNum是1或者-1 所有要使用e.target.value - skuNum
+      this.addToCart({ skuId, skuNum: e.target.value - skuNum });
+    },
   },
   mounted() {
     this.getCartList();
@@ -176,6 +211,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+button[disabled] {
+  color: #c0c4cc;
+  cursor: not-allowed;
+}
 a:hover {
   cursor: pointer;
 }
@@ -234,10 +273,10 @@ img {
 .count-btn {
   border: 1px solid #ddd;
   color: #666;
-  width: 6px;
   text-align: center;
-  padding: 8px;
+  padding: 8px 8px;
   cursor: pointer;
+  outline: none;
 }
 .mins {
   border-right: 0;

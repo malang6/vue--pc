@@ -13,14 +13,14 @@
             </li>
           </ul>
           <div class="login-form-bottom clearfix">
-            <form @submit.prevent="login">
+            <form @submit.prevent="submit">
               <div class="login-phone">
                 <i class="icon-phone"></i>
                 <input
                   type="text"
                   placeholder="手机号"
                   class="login-input login-input-phone"
-                  v-model="phone"
+                  v-model="user.phone"
                 />
               </div>
               <div class="login-password">
@@ -29,12 +29,12 @@
                   type="password"
                   placeholder="请输入密码"
                   class="login-input login-input-password"
-                  v-model="password"
+                  v-model="user.password"
                 />
               </div>
               <div class="login-setting">
                 <label>
-                  <input type="checkbox" checked />
+                  <input type="checkbox" v-model="isAutoLogin" />
                   自动登录
                 </label>
                 <span>忘记密码？</span>
@@ -52,27 +52,52 @@
 </template>
 
 <script>
-import { reqLogin } from "@api/user";
+import { mapState } from "vuex";
 export default {
   name: "Login",
   data() {
     return {
-      phone: "",
-      password: "",
+      user: {
+        phone: "",
+        password: "",
+      },
+      isLogining: false, //正在登录
+      isAutoLogin: true, //自动登录
     };
   },
+  computed: {
+    ...mapState({
+      name: (state) => state.user.name,
+      token: (state) => state.user.token,
+    }),
+  },
   methods: {
-    login() {
-      const { phone, password } = this;
-      reqLogin(phone, password)
-        .then((res) => {
-          console.log(res.name);
-          this.$router.push({
-            path: "/",
-          });
-        })
-        .catch(() => {});
+    async submit() {
+      try {
+        //正在发送请求登录的时候 多次点击登录将会无效 即不发请求
+        if (this.isLogining) return;
+        this.isLogining = true;
+        const { phone, password } = this.user;
+
+        await this.$store.dispatch("login", { phone, password });
+        //当点击了自动登录的时候,要存一个token,下次在登录界面的时候,只要有token就直接跳到主页面
+        if (this.isAutoLogin) {
+          localStorage.setItem("token", this.token);
+          localStorage.setItem("name", this.name);
+        }
+        this.$router.replace("/");
+      } catch {
+        //当登录请求失败的时候 要将isLogining的值改为false 以便能重新点登录按钮
+        this.isLogining = false;
+      }
     },
+  },
+  //因为判断用户是否自动登录了,就没必要渲染,所以可以在created 数据代理了 这里处理
+  created() {
+    //如果已经存在token 则直接跳到主页面
+    if (this.token) {
+      this.$router.replace("/");
+    }
   },
 };
 </script>

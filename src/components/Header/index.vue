@@ -4,7 +4,13 @@
       <div class="header-top">
         <div class="header-top-left">
           <p class="header-title">尚品汇欢迎您！</p>
-          <p class="header-left-link">
+          <p class="header-left-link" v-if="$store.state.user.name">
+            <span
+              >{{ $store.state.user.name }}
+              <a class="header-free-rejister" @click="exitHandle">退出</a>
+            </span>
+          </p>
+          <p class="header-left-link" v-else>
             <span
               >请<router-link to="/login">登录</router-link>
               <router-link to="/register" class="header-free-rejister"
@@ -104,6 +110,13 @@ export default {
         .catch((err) => {
           console.log(err);
         }); */
+    },
+    //退出登录 移除token和name
+    async exitHandle() {
+      await this.$store.dispatch("exit");
+      localStorage.removeItem("token");
+      localStorage.removeItem("name");
+      this.$router.push("/login");
     },
   },
   watch: {
