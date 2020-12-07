@@ -78,7 +78,7 @@ export default {
         if (this.isLogining) return;
         this.isLogining = true;
         const { phone, password } = this.user;
-
+        //当需要的actions的一个方法的时候，可以不用mapActions去映射，直接使用this.$store.dispatch即可
         await this.$store.dispatch("login", { phone, password });
         //当点击了自动登录的时候,要存一个token,下次在登录界面的时候,只要有token就直接跳到主页面
         if (this.isAutoLogin) {

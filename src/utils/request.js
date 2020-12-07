@@ -2,6 +2,7 @@ import axios from "axios"
 import {Message} from "element-ui"
 // 进度条效果的库
 import NProgress from 'nprogress'
+import store from "../store"
 import getUserTempId from "./getUserTempId"
 
 import "nprogress/nprogress.css"
@@ -35,7 +36,6 @@ const instance = axios.create({
 	3. 在内存中缓存一份localStorage数据，让性能更好
 */
 const userTempId = getUserTempId();
-
 //请求拦截器
 instance.interceptors.request.use(
     (config)=>{
@@ -43,7 +43,10 @@ instance.interceptors.request.use(
         NProgress.start()
         // 将临时id添加到请求头上，每次发送请求就都会携带上
         config.headers.userTempId = userTempId;
-
+        
+        //将token携带上 当将临时和token都发送给后台后，后台自己会将两个合并  第一次登录的时候 登录请求上的token还是空，但是后面的请求都会携带上
+        const token = store.state.user.token
+        config.headers.token = token
         return config;
     },
     // 初始化Promise.resolve()返回默认成功的Promise，只会触发成功的回调
