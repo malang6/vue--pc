@@ -7,8 +7,11 @@ import Register from "@views/Register"
 import Search from "@views/Search"
 import ShopCart from "@views/ShopCart"
 import AddCartSuccess from "@views/AddCartSuccess"
-import Center from "@views/Center"
 import Detail from "@views/Detail"
+import Trade from "@views/Trade"
+import Pay from "@views/Pay"
+import PaySuccess from "@views/PaySuccess"
+import Center from "@views/Center"
 
 //重写$router的push和replace方法(解决编程式导航重复点击时报错问题)
 const push = VueRouter.prototype.push;
@@ -69,14 +72,31 @@ export default new VueRouter({
             component:AddCartSuccess,
         },
         {
+            name:"detail",
+            path:"/detail/:id",
+            component:Detail,
+        },
+        {
+            name:"center",
             path:"/center/myorder",
             component:Center,
         },
         {
-            name:"detail",
-            path:"/detail/:id",
-            component:Detail,
-        }
+            name:"pay",
+            path:"/pay",
+            component:Pay,
+        },
+        {
+            name:"paysuccess",
+            path:"/paysuccess",
+            component:PaySuccess,
+        },
+        {
+            name:"trade",
+            path:"/trade",
+            component:Trade,
+        },
+        
     ],
     // 每次切换路由的时候，设置滚轮的位置都是在顶上的 x:水平方向，y：垂直方向
     scrollBehavior () {
