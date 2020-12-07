@@ -177,7 +177,7 @@
               :current-page="options.pageNo"
               :page-size="5"
               :pager-count="7"
-              :total="total"
+              :total="100"
             />
           </div>
         </div>

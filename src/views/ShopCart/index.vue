@@ -93,6 +93,7 @@ export default {
     //计算是否全选中
     isAllChecked: {
       get() {
+        //当下面的已选中总数和商品总数相等时 全选按钮选中
         const sum = this.cartList.reduce((p, c) => p + c.skuNum, 0);
         return this.totalCount && this.totalCount === sum;
       },
@@ -152,11 +153,12 @@ export default {
         });
       }
     },
-
+    // 全选
     async checkCartHandle(cart) {
       // 准备数据
       const skuId = cart.skuId;
       const isChecked = cart.isChecked === 1 ? "0" : "1";
+      // 可以用try catch 也可以用.then .catch
       try {
         await this.checkCart({ skuId, isChecked });
         // 如果成功了, 重新获取购物车数据显示
