@@ -86,7 +86,7 @@
               <i class="summoney">{{ totalPrice }}</i>
             </div>
             <div class="sumbtn">
-              <router-link to="/trade" class="sum-btn">结算</router-link>
+              <a class="sum-btn" @click="settlement">结算</a>
             </div>
           </div>
         </div>
@@ -102,6 +102,7 @@ export default {
   computed: {
     ...mapState({
       cartList: (state) => state.shopcart.cartList,
+      token: (state) => state.user.token,
     }),
     //计算是否全选中
     isAllChecked: {
@@ -193,15 +194,27 @@ export default {
       }
       e.target.value = skuNum;
     },
-    //
+    //input框失去焦点的时候触发更新
     update(skuId, skuNum, e) {
-      // console.log(e.target.value, skuNum);
+      console.log(e.target.value, skuNum);
 
       //当输入的值没有改变的时候,就不要发请求了  e.target.value得到的是字符串,+可以将其转化为Number
       if (+e.target.value === skuNum) return;
 
-      //传过去的skuNum是1或者-1 所有要使用e.target.value - skuNum
+      //传过去的skuNum使用直接是加几或者减几
       this.addToCart({ skuId, skuNum: e.target.value - skuNum });
+    },
+    //结算商品
+    settlement() {
+      if (!this.cartList.length) {
+        return alert("购物车还没有商品哟~~~");
+      }
+      if (this.token) {
+        return this.$router.push("/trade");
+      }
+      if (window.confirm("请先登录,才能结算商品...")) {
+        return this.$router.push("/login");
+      }
     },
   },
   mounted() {

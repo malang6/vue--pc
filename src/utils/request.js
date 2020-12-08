@@ -33,7 +33,7 @@ const instance = axios.create({
 		- 如果有，直接使用
 		- 如果没有，需要创建userTempId，同时保存在localStorage中
 
-	3. 在内存中缓存一份localStorage数据，让性能更好
+	3. 在内存中缓存一份localStorage数据，让性能更好(vuex 变量都是属于在内存操作)
 */
 const userTempId = getUserTempId();
 //请求拦截器

@@ -88,8 +88,6 @@ export default {
 
 <style lang="less" scoped>
 .myorder {
-  width: 83.33%;
-  margin: 0 20px;
   color: #666;
 }
 .title {

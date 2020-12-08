@@ -29,7 +29,7 @@ export default {
             commit("CHECK_CART",{skuId,isChecked})
        },    
        // 全选处理
-       async checkAllCart ({state, dispatch}, isChecked) {
+       checkAllCart ({state, dispatch}, isChecked) {
         // 确定对应的isChecked值
         const ischecked =  isChecked ? '1' : '0'
         let promises = []
@@ -38,6 +38,7 @@ export default {
           // 购物项的状态与目标状态不一样
           if (item.isChecked!=ischecked) {
             // 分发给checkCart, 得到其返回的promise对象
+            // console.log(this)
             const promise = dispatch("checkCart",{skuId: item.skuId, isChecked:ischecked})
             // 保存到数组中
             promises.push(promise)

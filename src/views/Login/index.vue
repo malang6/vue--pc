@@ -14,15 +14,18 @@
           </ul>
           <div class="login-form-bottom clearfix">
             <form @submit.prevent="submit">
-              <div class="login-phone">
-                <i class="icon-phone"></i>
-                <input
-                  type="text"
-                  placeholder="手机号"
-                  class="login-input login-input-phone"
-                  v-model="user.phone"
-                />
-              </div>
+                <!-- <ValidationProvider rules="phoneRequired"> -->
+                <div class="login-phone">
+                  <i class="icon-phone"></i>
+                  <input
+                    type="text"
+                    placeholder="手机号"
+                    class="login-input login-input-phone"
+                    v-model="user.phone"
+                  />
+                  <!-- <span>{{ errors[0] }}</span> -->
+                </div>
+              <!-- </ValidationProvider> -->
               <div class="login-password">
                 <i class="icon-password"></i>
                 <input
@@ -52,7 +55,15 @@
 </template>
 
 <script>
+// import { ValidationProvider, extend } from "vee-validate";
+// import { required } from "vee-validate/dist/rules";
 import { mapState } from "vuex";
+
+// extend("phoneRequired", {
+//   ...required,
+//   message: "手机号不能为空！",
+// });
+
 export default {
   name: "Login",
   data() {

@@ -58,18 +58,16 @@
         </dl>
       </div>
       <!-- 右边的订单 -->
-      <MyOrder />
+      <div class="order-right">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import MyOrder from "./MyOrder";
 export default {
   name: "Center",
-  components: {
-    MyOrder,
-  },
 };
 </script>
 
@@ -106,5 +104,9 @@ dd {
 }
 .active {
   color: red;
+}
+.order-right {
+  width: 83.33%;
+  margin: 0 20px;
 }
 </style>

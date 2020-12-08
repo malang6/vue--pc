@@ -67,8 +67,7 @@
 </template>
 
 <script>
-import { ValidationProvider } from "vee-validate";
-import { extend } from "vee-validate";
+import { ValidationProvider,extend } from "vee-validate";
 /*
   文档：https://vee-validate.logaretm.com/v3/guide/basics.html#validation-provider
   1. 下载 

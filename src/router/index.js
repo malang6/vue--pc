@@ -1,5 +1,6 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
+import store from "../store"
 
 import Home from "@views/Home"
 import Login from "@views/Login"
@@ -12,6 +13,8 @@ import Trade from "@views/Trade"
 import Pay from "@views/Pay"
 import PaySuccess from "@views/PaySuccess"
 import Center from "@views/Center"
+import MyOrder from '@/views/Center/MyOrder'
+import GroupBuy from '@/views/Center/GroupBuy'
 
 //重写$router的push和replace方法(解决编程式导航重复点击时报错问题)
 const push = VueRouter.prototype.push;
@@ -32,7 +35,7 @@ VueRouter.prototype.replace = function (location,onComplate,onAbort){
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
+const router = new VueRouter({
     routes:[
         {
             path:'/',
@@ -77,10 +80,25 @@ export default new VueRouter({
             component:Detail,
         },
         {
-            name:"center",
-            path:"/center/myorder",
-            component:Center,
-        },
+            path: '/center',
+            component: Center,
+            children: [
+              {
+                path: '/center/myorder',
+                component: MyOrder
+              },
+              {
+                path: 'groupbuy',
+                component: GroupBuy
+              },
+              // 自动跳转的路由
+              {
+                path: '',
+                redirect: '/center/myorder'
+              }
+            ]
+          },
+        
         {
             name:"pay",
             path:"/pay",
@@ -103,3 +121,43 @@ export default new VueRouter({
         return { x: 0, y: 0 }
     }
 })
+
+/*
+	路由守卫：
+		1. 是什么
+			在路由跳转之前、之中、之后触发的钩子函数（类似于生命周期）
+		2. 分类
+			全局守卫
+				全局前置守卫：在切换路由之前触发
+					beforeEach
+				全局解析守卫：之中
+					beforeResolve
+				全局后置守卫：之后
+					afterEach
+			路由守卫
+			组件守卫		
+
+*/
+// 需要进行权限验证的地址
+const permissionPaths = ["/trade","/pay","/center","/paysuccess"];
+// 路由全局前置守卫
+router.beforeEach((to,from,next)=> {
+    /*
+		to   要去的路由对象($route)
+		from 从哪来的路由对象（当前路由对象）($route)
+		next 是一个函数：跳转到哪个路由的方法
+			比如：要去to这个路由 next()	
+						要去登录路由 next('/login')  next({path: '/login'})  next({name: 'login'})
+	
+		
+		权限验证：
+			如果用户未登录，不允许去 trade pay center 等路由
+    */
+    //用includes也可以，但是可能存在兼容性问题，indexOf不存在，所以更好
+    if(permissionPaths.indexOf(to.path) > -1 && !store.state.user.token){
+        return next("/login")
+    }
+    next()
+}) 
+
+export default router
