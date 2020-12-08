@@ -119,7 +119,7 @@
               <ul class="g-list">
                 <li
                   class="g-list-item"
-                  v-for="goods in goodsList"
+                  v-for="(goods, index) in goodsList"
                   :key="goods.id"
                 >
                   <div class="list-wapper">
@@ -151,9 +151,9 @@
                     </div>
                     <!-- 加入购物车 -->
                     <div class="operate">
-                      <router-link to="/addcartsuccess" class="sui-btn btn-red"
-                        >加入购物车</router-link
-                      >
+                      <button class="sui-btn btn-red" @click="addcart(index)">
+                        加入购物车
+                      </button>
                       <a href="###" class="sui-btn btn-bordered">收藏</a>
                     </div>
                   </div>
@@ -187,10 +187,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import SearchType from "./SearchType";
 import TypeNav from "@comps/TypeNav";
 import Pagination from "@comps/Pagination";
+import { reqGetProductListDetail } from "@api/detail";
 export default {
   name: "Search",
   data() {
@@ -226,7 +227,8 @@ export default {
     ...mapGetters(["goodsList", "total"]),
   },
   methods: {
-    ...mapActions(["getProductionList"]),
+    ...mapActions(["getProductionList", "getProductListDetail", "addToCart"]),
+    ...mapMutations(["PUSH_SKUINFOS", "PUSH_SPUSALEATTRLISTS"]),
     //更新商品列表
     updateProductList(pageNo = 1) {
       //先解构赋值 将searchText 从 this.$route.params中解构出来
@@ -331,6 +333,14 @@ export default {
     handleCurrentChange(pageNo) {
       // console.log("pageNo", pageNo);
       this.updateProductList(pageNo);
+    },
+    //加入购物车
+    async addcart(index) {
+      const id = this.goodsList[index].id + "";
+      const result = await reqGetProductListDetail(id);
+      await this.addToCart({ skuId: id, skuNum: 1 });
+      this.$store.commit("PUSH_SKUINFOS", result.skuInfo);
+      this.$router.push(`/addcartsuccess?skuNum=${1}`);
     },
   },
   mounted() {

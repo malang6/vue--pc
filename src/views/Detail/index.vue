@@ -343,7 +343,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import ImageList from "./ImageList/ImageList";
 import Zoom from "./Zoom/Zoom";
 import TypeNav from "@comps/TypeNav";
@@ -360,6 +360,7 @@ export default {
   },
   methods: {
     ...mapActions(["getProductListDetail", "addToCart"]),
+    ...mapMutations(["PUSH_SKUINFOS", "PUSH_SPUSALEATTRLISTS"]),
 
     chooseActive(value, valueList) {
       // 如果指定的value已经选中, 直接结束
@@ -369,12 +370,13 @@ export default {
       // 将指定的value选中
       value.isChecked = "1";
     },
-    //加入购物车
+    //加入购物车(加入购物车的数据也可以存在sessionStorage中 但是存在vux性能更好)
     async addCart() {
       try {
         await this.addToCart({ skuId: this.skuInfo.id, skuNum: this.skuNum });
         // 组件切换是将上前的卸载在去加载下一个 当前还没有卸载时，下一个路由组件不存在的 所以下面这个不能使用全局事件总线
-        sessionStorage.setItem("skuInfo", JSON.stringify(this.skuInfo));
+        this.$store.commit("PUSH_SKUINFOS", this.skuInfo);
+        this.$store.commit("PUSH_SPUSALEATTRLISTS", this.spuSaleAttrList);
         this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
       } catch (e) {
         console.log(e);

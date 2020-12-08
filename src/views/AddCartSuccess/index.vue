@@ -8,17 +8,32 @@
       <div class="goods">
         <div class="left-goods">
           <div class="left-img">
-            <img :src="skuInfo.skuDefaultImg" />
+            <img :src="skuInfos.skuDefaultImg" />
             <div class="right-info">
-              <p class="title">{{ skuInfo.skuName }}</p>
+              <p class="title">{{ skuInfos.skuName }}</p>
               <p class="attr">
-                颜色：WFZ5099IH/5L钛金釜内胆 数量：{{ $route.query.skuNum }}
+                产品信息：
+                {{
+                  proInfo[0] && proInfo[0][0]
+                    ? proInfo[0][0].saleAttrValueName
+                    : "xxx"
+                }}&nbsp;
+                {{
+                  proInfo[1] && proInfo[1][0]
+                    ? proInfo[1][0].saleAttrValueName
+                    : "xxx"
+                }}&nbsp;
+                {{
+                  proInfo[2] && proInfo[2][0]
+                    ? proInfo[2][0].saleAttrValueName
+                    : "xxx"
+                }}&nbsp;数量：{{ $route.query.skuNum }}
               </p>
             </div>
           </div>
         </div>
         <div class="right-gocart">
-          <router-link :to="`/detail/${skuInfo.id}`">查看商品详情</router-link>
+          <router-link :to="`/detail/${skuInfos.id}`">查看商品详情</router-link>
           <router-link to="/shopcart">去购物车结算 ></router-link>
         </div>
       </div>
@@ -27,24 +42,22 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex";
 export default {
   name: "AddCartSuccess",
-  data() {
-    return {
-      skuInfo: {},
-    };
+  computed: {
+    ...mapState({
+      skuInfos: (state) => state.addcartsuccess.skuInfos,
+    }),
+    ...mapGetters(["proInfo"]),
   },
-  //组件内守卫
+  /* //组件内守卫
   beforeRouteEnter(to, from, next) {
-    if ((from.name === "detail" && sessionStorage.getItem("skuInfo"))) {
+    if (from.name === "detail" && sessionStorage.getItem("skuInfo")) {
       return next();
     }
     next("/shopcart");
-  },
-  mounted() {
-    const skuInfo = sessionStorage.getItem("skuInfo");
-    this.skuInfo = JSON.parse(skuInfo);
-  },
+  }, */
 };
 </script>
 
@@ -93,7 +106,7 @@ img {
   font-size: 14px;
 }
 .attr {
-  width: 250px;
+  width: 300px;
   color: #aaa;
 }
 a {
