@@ -36,6 +36,9 @@ VueRouter.prototype.replace = function (location,onComplate,onAbort){
 Vue.use(VueRouter)
 
 const router = new VueRouter({
+    //路由模式
+    // mode:"hash",//默认就是hash模式
+    mode:"history",
     routes:[
         {
             path:'/',

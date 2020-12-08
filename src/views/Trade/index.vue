@@ -8,11 +8,18 @@
         v-for="userAddress in orderList.userAddressList"
         :key="userAddress.id"
       >
-        <span class="username selected">{{ userAddress.consignee }}</span>
+        <span
+          :class="{
+            username: true,
+            selected: userAddress.id === selectAddressId,
+          }"
+          @click="selectAddressId = userAddress.id"
+          >{{ userAddress.consignee }}</span
+        >
         <p>
           <span class="s1">{{ userAddress.userAddress }}</span>
           <span class="s2">{{ userAddress.phoneNum }}</span>
-          <span class="s3">默认地址</span>
+          <span class="s3" v-if="+userAddress.isDefault">默认地址</span>
         </p>
       </div>
       <div class="line"></div>
@@ -58,6 +65,7 @@
         <textarea
           placeholder="建议留言前先与商家沟通确认"
           class="remarks-cont"
+          v-model="orderComment"
         ></textarea>
       </div>
       <div class="line"></div>
@@ -92,31 +100,64 @@
       </div>
       <div class="receiveInfo">
         寄送至:
-        <span>北京市昌平区宏福科技园综合楼6层</span>
-        收货人：<span>张三</span>
-        <span>15010658793</span>
+        <span>{{ selectAddress.userAddress }}</span
+        >&nbsp; 收货人：<span>{{ selectAddress.consignee }}</span
+        >&nbsp;
+        <span>{{ selectAddress.phoneNum }}</span>
       </div>
     </div>
     <div class="sub clearFix">
-      <a class="subBtn">提交订单</a>
+      <button class="subBtn" @click="submit">提交订单</button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { reqGetOrderList, reqSubmitOrder } from "@api/order";
 export default {
   name: "Trade",
+  data() {
+    return {
+      orderList: {},
+      selectAddressId: -1,
+      orderComment: "",
+    };
+  },
   computed: {
-    ...mapState({
-      orderList: (state) => state.order.orderList,
-    }),
+    selectAddress() {
+      const {
+        selectAddressId,
+        orderList: { userAddressList },
+      } = this;
+
+      return userAddressList
+        ? userAddressList.find(
+            (userAddress) => userAddress.id === selectAddressId
+          )
+        : {};
+    },
   },
   methods: {
-    ...mapActions(["getOrderList"]),
+    async submit() {
+      const { tradeNo, detailArrayList } = this.orderList;
+      const { consignee, phoneNum, userAddress } = this.selectAddress;
+      const result = await reqSubmitOrder({
+        tradeNo,
+        consignee,
+        consigneeTel: phoneNum,
+        deliveryAddress: userAddress,
+        paymentWay: "ONLINE",
+        orderComment: this.orderComment,
+        orderDetailList: detailArrayList,
+      });
+      this.$router.push(`/pay?orderId=${result}`);
+    },
   },
-  mounted() {
-    this.getOrderList();
+  async mounted() {
+    this.orderList = await reqGetOrderList();
+    this.selectAddressId = this.orderList.userAddressList.find(
+      (userAddress) => userAddress.isDefault === "1"
+    ).id;
   },
 };
 </script>

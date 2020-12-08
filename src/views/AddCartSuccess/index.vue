@@ -8,11 +8,9 @@
       <div class="goods">
         <div class="left-goods">
           <div class="left-img">
-            <img
-              :src="skuInfo.skuDefaultImg"
-            />
+            <img :src="skuInfo.skuDefaultImg" />
             <div class="right-info">
-              <p class="title">{{skuInfo.skuName}}</p>
+              <p class="title">{{ skuInfo.skuName }}</p>
               <p class="attr">
                 颜色：WFZ5099IH/5L钛金釜内胆 数量：{{ $route.query.skuNum }}
               </p>
@@ -20,9 +18,7 @@
           </div>
         </div>
         <div class="right-gocart">
-          <router-link :to="`/detail/${skuInfo.id}`"
-            >查看商品详情</router-link
-          >
+          <router-link :to="`/detail/${skuInfo.id}`">查看商品详情</router-link>
           <router-link to="/shopcart">去购物车结算 ></router-link>
         </div>
       </div>
@@ -38,9 +34,16 @@ export default {
       skuInfo: {},
     };
   },
+  //组件内守卫
+  beforeRouteEnter(to, from, next) {
+    if ((from.name === "detail" && sessionStorage.getItem("skuInfo"))) {
+      return next();
+    }
+    next("/shopcart");
+  },
   mounted() {
     const skuInfo = sessionStorage.getItem("skuInfo");
-    this.skuInfo = JSON.parse(skuInfo)
+    this.skuInfo = JSON.parse(skuInfo);
   },
 };
 </script>

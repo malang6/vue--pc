@@ -15,11 +15,11 @@
         </tr>
       </table>
     </div>
-    <div class="orders">
+    <div class="orders" v-for="order in orderList.records" :key="order.id">
       <table class="order-item">
         <tr>
           <th colspan="5" class="order-num">
-            <span>2020-12-03 09:51:22 订单编号：ATGUIGU1606960281991481</span>
+            <span>{{ order.createTime }} 订单编号：{{ order.outTradeNo }}</span>
             <span class="order-num-img">
               <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoklEQVQ4T2NkoBAwYtFvwMDAsICBgeEDmpwAAwNDAgMDwwVkcWQDHBgYGP4zMDBMYGBgKMBiMMiABiS5gyA1yAaAJEkBYPXoXgC54gDUFBD7AZStgCYOU4NhAMhUmEtANLJhyOJw16K7YNQASABSLRBxpQlkSzCiEZSE12NJxjDDQKkxEJqkwWLY8gIoGYMUYgOg/IGST7AZQEpyxuoCkgwAAM/OLBHb4Q8yAAAAAElFTkSuQmCC"
@@ -27,62 +27,79 @@
             </span>
           </th>
         </tr>
-
-        <tr>
-          <td class="center" width="60%">
-            <div class="typographic">
-              <img
-                src="http://182.92.128.115:8080/group1/M00/00/0F/rBFUDF7JsSCAOfNkAADpIchA8Kg371.jpg"
-              />
-              <a href="###" class="block-txt">aa</a>
-              <span class="xnum">x5000</span>
-            </div>
-          </td>
-          <td rowspan="3" class="center-txt">admin</td>
-          <td class="center center-txt" rowspan="3">
-            <ul>
-              <li>总金额¥0.01</li>
-              <li>在线支付</li>
-            </ul>
-          </td>
-          <td class="center center-txt" rowspan="3">
-            <a href="###">未支付</a>
-          </td>
-          <td class="center center-txt" rowspan="3">
-            <ul>
-              <li><a href="###">评价|晒单</a></li>
-            </ul>
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            <div class="typographic">
-              <img
-                src="http://182.92.128.115:8080/group1/M00/00/0D/rBFUDF7G-SCAfTNdAAE2h_xkskg643.jpg"
-              />
-              <a href="###" class="block-txt">aa</a>
-              <span class="xnum">x5000</span>
-            </div>
-          </td>
-        </tr>
+        <tbody
+          v-for="orderDetail in order.orderDetailList"
+          :key="orderDetail.id"
+        >
+          <tr>
+            <td class="center" width="58%">
+              <div class="typographic">
+                <img :src="orderDetail.imgUrl" />
+                <a href="###" class="block-txt">{{ orderDetail.skuName }}</a>
+                <span class="xnum">x{{ orderDetail.skuNum }}</span>
+              </div>
+            </td>
+            <td :rowspan="order.orderDetailList.length" class="center-txt">{{ order.consignee }}</td>
+            <td class="center center-txt" :rowspan="order.orderDetailList.length">
+              <ul>
+                <li>总金额¥0.01</li>
+                <li>在线支付</li>
+              </ul>
+            </td>
+            <td class="center center-txt" :rowspan="order.orderDetailList.length">
+              <a href="###">{{ order.orderStatusName }}</a>
+            </td>
+            <td class="center center-txt" :rowspan="order.orderDetailList.length">
+              <ul>
+                <li><a href="###">评价|晒单</a></li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <!-- 分页器 -->
     <el-pagination
       background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="+page"
       :page-sizes="[5, 10, 15, 20]"
-      :page-size="5"
+      :page-size="+limit"
       layout=" prev, pager, next, total, sizes,jumper"
-      :total="50"
+      :total="orderList.total"
     >
     </el-pagination>
   </div>
 </template>
 
 <script>
+import { reqOrderList } from "@api/order";
 export default {
   name: "MyOrder",
+  data() {
+    return {
+      orderList: {},
+      page: "1",//当前第几页
+      limit: "5",//每页显示多少条
+    };
+  },
+  methods: {
+    async updateOrderList() {
+      this.orderList = await reqOrderList(this.page, this.limit);
+    },
+    handleCurrentChange(page) {
+      this.page = page;
+      this.updateOrderList();
+    },
+    handleSizeChange(limit) {
+      this.limit = limit;
+      this.updateOrderList();
+    },
+  },
+  mounted() {
+    this.updateOrderList();
+  },
 };
 </script>
 
@@ -126,6 +143,7 @@ th {
   text-align: left;
 }
 td {
+  min-width: 78px;
   padding: 6px 8px;
   text-align: left;
   vertical-align: middle;
@@ -156,7 +174,7 @@ td {
 }
 .xnum {
   position: absolute;
-  left: 210px;
+  left: 300px;
   top: 6px;
 }
 .center-txt {
