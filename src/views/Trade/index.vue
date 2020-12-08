@@ -150,7 +150,14 @@ export default {
         orderComment: this.orderComment,
         orderDetailList: detailArrayList,
       });
-      this.$router.push(`/pay?orderId=${result}`);
+      sessionStorage.setItem("price",this.orderList.totalAmount)
+       this.$router.push(`/pay?orderId=${result}`);
+      /* this.$router.push({
+        name: "pay",
+        params: {
+          orderId: result,
+        },
+      }); */
     },
   },
   async mounted() {
@@ -408,6 +415,8 @@ export default {
       text-align: center;
       color: #fff;
       background-color: #e1251b;
+      border: none;
+      outline: none;
     }
   }
 }

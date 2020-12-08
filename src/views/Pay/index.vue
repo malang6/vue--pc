@@ -17,7 +17,7 @@
           >
           <span class="fr"
             ><em class="lead">应付金额：</em
-            ><em class="orange money">￥17,654</em></span
+            ><em class="orange money">￥{{totalPrice}}</em></span
           >
         </div>
       </div>
@@ -97,6 +97,11 @@ import QRCode from "qrcode";
 import { reqCreateNative } from "@api/order";
 export default {
   name: "Pay",
+  data() {
+    return {
+      totalPrice: 0,
+    };
+  },
   methods: {
     async submit() {
       const qrcode = await reqCreateNative(this.$route.query.orderId);
@@ -133,6 +138,9 @@ export default {
           console.error(err);
         });
     },
+  },
+  mounted() {
+    this.totalPrice = sessionStorage.getItem("price");
   },
 };
 </script>

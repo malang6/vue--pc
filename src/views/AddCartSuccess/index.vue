@@ -51,13 +51,16 @@ export default {
     }),
     ...mapGetters(["proInfo"]),
   },
-  /* //组件内守卫
+  //组件内守卫
   beforeRouteEnter(to, from, next) {
-    if (from.name === "detail" && sessionStorage.getItem("skuInfo")) {
-      return next();
-    }
-    next("/shopcart");
-  }, */
+    next((vm) => {
+      if (from.name === "detail" && vm.skuInfos) {
+        return next();
+      } else {
+        next("/shopcart");
+      }
+    });
+  },
 };
 </script>
 
