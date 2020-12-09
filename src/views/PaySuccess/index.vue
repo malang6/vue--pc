@@ -18,12 +18,8 @@
 </template>
 
 <script>
-import { reqQueryPayStatus } from "@api/order";
 export default {
   name: "PaySuccess",
-  async mounted() {
-    await reqQueryPayStatus(this.$route.params.orderId);
-  },
 };
 </script>
 
