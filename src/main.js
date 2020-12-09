@@ -4,9 +4,10 @@ import router from "./router"
 import store from '@store'
 import './plugins/element.js'
 import './plugins/lazy.js'
+
 //引入mockServer，就会加载里面的代码
 //里面的一旦被加载，就去启动mock服务器，从而拦截相应的请求
-import "./mock/mockServer"
+import "./mock/mockServer" //当有接口的时候就可以将这个注释掉了，相应的mockServer接口也要改成真正的接口。上线时必须修改掉！
 
 import './styles/reset.css'
 import './styles/iconfont.css'

@@ -19,5 +19,5 @@ Vue.use(VueLazyload,{
     loading,
 })
 
-//在.vue文件中可以像注释那样直接写，因为vue-loader会在打包的时候将图片解析了
+//在.vue文件中可以像注释那样直接写，因为vue-loader先加载图片，再交给url-loader处理，将图片解析了
 //而其他js文件的则不行，想要被解析，需要使用import引入图片路径

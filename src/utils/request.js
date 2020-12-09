@@ -7,9 +7,14 @@ import getUserTempId from "./getUserTempId"
 
 import "nprogress/nprogress.css"
 
+// 通过其值来区分运行环境
+// console.log(process.env.NODE_ENV); // development  production 
+const prefix_url =
+	process.env.NODE_ENV === "development" ? "/" : "http://182.92.128.115/";
 const instance = axios.create({
     //基础路径 因为做了用户代理，所以前面的目标地址不用写了。 / 就是当前服务器地址
-    baseURL: "/api",
+    //baseURL: "/api"; 开发时用的 上线时改成 baseURL:"http://182.92.128.115/api" 可以这样写 但是不建议，可以采用下面方式，就不用来回改了
+    baseURL: `${prefix_url}api`,
     //公共请求头，直接写在这里，就代表所以请求都会携带上
     headers:{}
 })

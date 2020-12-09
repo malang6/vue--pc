@@ -16,17 +16,17 @@
                 {{
                   proInfo[0] && proInfo[0][0]
                     ? proInfo[0][0].saleAttrValueName
-                    : "xxx"
+                    : ""
                 }}&nbsp;
                 {{
                   proInfo[1] && proInfo[1][0]
                     ? proInfo[1][0].saleAttrValueName
-                    : "xxx"
+                    : ""
                 }}&nbsp;
                 {{
                   proInfo[2] && proInfo[2][0]
                     ? proInfo[2][0].saleAttrValueName
-                    : "xxx"
+                    : ""
                 }}&nbsp;数量：{{ $route.query.skuNum }}
               </p>
             </div>
@@ -53,8 +53,9 @@ export default {
   },
   //组件内守卫
   beforeRouteEnter(to, from, next) {
+    const permissionPaths = ["detail","search"]
     next((vm) => {
-      if (from.name === "detail" && vm.skuInfos) {
+      if ( permissionPaths.indexOf(from.name) > -1 && vm.skuInfos) {
         return next();
       }
        next("/shopcart");

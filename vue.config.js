@@ -1,8 +1,11 @@
 const path = require("path");
+// 改了配置，一定要重启才能生效
 module.exports={
+     // lintOnSave: false, // 关闭所有eslint检查
+    // 当前配置会和vue的webpack合并
     configureWebpack:{
         resolve:{
-            //配置路径别名
+            //配置路径别名(可以简写路径)
             alias:{
                 "@views": path.resolve(__dirname, "src/views"),
                 "@assets":path.resolve(__dirname,"src/assets"),
