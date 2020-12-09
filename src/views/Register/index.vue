@@ -60,7 +60,9 @@
         <span>同意协议并注册《尚品汇用户协议》</span>
       </div>
       <div class="register-btn">
-        <button @click="submit">完成注册</button>
+        <!-- <button @click="submit">完成注册</button> -->
+        <!-- @click="submit" 是给组件绑定自定义事件 -->
+        <Button @click="submit">完成注册</Button>
       </div>
     </div>
   </div>
@@ -96,6 +98,7 @@ import { ValidationProvider,extend } from "vee-validate";
 */
 import { required } from "vee-validate/dist/rules";
 import { Message } from "element-ui";
+import Button from "@comps/Button"
 extend("required", required);
 extend("required", {
   ...required,
@@ -110,7 +113,7 @@ extend("passwordRequired", {
   ...required,
   message: "登录密码不能为空！",
 });
-extend("reRasswordRequired", {
+extend("rePasswordRequired", {
   ...required,
   message: "确认密码不能为空！",
 });
@@ -169,6 +172,7 @@ export default {
   },
   components: {
     ValidationProvider,
+    Button
   },
   methods: {
     async submit() {

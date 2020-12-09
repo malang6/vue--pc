@@ -42,7 +42,7 @@
                 </label>
                 <span>忘记密码？</span>
               </div>
-              <button>登 录</button>
+              <Button @click="submit">登 录</Button>
               <div class="login-register">
                 <router-link to="/register">立即注册</router-link>
               </div>
@@ -58,7 +58,7 @@
 // import { ValidationProvider, extend } from "vee-validate";
 // import { required } from "vee-validate/dist/rules";
 import { mapState } from "vuex";
-
+import Button from "@comps/Button"
 // extend("phoneRequired", {
 //   ...required,
 //   message: "手机号不能为空！",
@@ -72,9 +72,12 @@ export default {
         phone: "",
         password: "",
       },
-      isLogining: false, //正在登录
+      // isLogining: false, //正在登录
       isAutoLogin: true, //自动登录
     };
+  },
+  components:{
+    Button
   },
   computed: {
     ...mapState({
@@ -86,8 +89,8 @@ export default {
     async submit() {
       try {
         //正在发送请求登录的时候 多次点击登录将会无效 即不发请求
-        if (this.isLogining) return;
-        this.isLogining = true;
+        // if (this.isLogining) return;
+        // this.isLogining = true;
         const { phone, password } = this.user;
         //当需要的actions的一个方法的时候，可以不用mapActions去映射，直接使用this.$store.dispatch即可
         await this.$store.dispatch("login", { phone, password });
@@ -99,7 +102,7 @@ export default {
         this.$router.replace("/");
       } catch {
         //当登录请求失败的时候 要将isLogining的值改为false 以便能重新点登录按钮
-        this.isLogining = false;
+        // this.isLogining = false;
       }
     },
   },

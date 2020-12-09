@@ -29,13 +29,13 @@
             </li>
             <li class="cart-list-con4 w4">
               <div class="count">
-                <button
+                <Button
                   class="mins count-btn"
                   :disabled="cart.skuNum <= 1"
                   @click="addToCart({ skuId: cart.skuId, skuNum: -1 })"
                 >
                   -
-                </button>
+                </Button>
                 <!-- :value="cart.skuNum" 这里要使用input就不能使用v-model绑定,因为v-model已经有了input事件.要使用value -->
                 <input
                   autocomplete="off"
@@ -46,13 +46,13 @@
                   @input="formatSkuNum"
                   @blur="update(cart.skuId, cart.skuNum, $event)"
                 />
-                <button
+                <Button
                   class="plus count-btn"
                   :disabled="cart.skuNum >= 10"
                   @click="addToCart({ skuId: cart.skuId, skuNum: 1 })"
                 >
                   +
-                </button>
+                </Button>
               </div>
             </li>
             <li class="cart-list-con5 w5">
@@ -86,7 +86,7 @@
               <i class="summoney">{{ totalPrice }}</i>
             </div>
             <div class="sumbtn">
-              <a class="sum-btn" @click="settlement">结算</a>
+              <Button class="sum-btn" @click="settlement">结算</Button>
             </div>
           </div>
         </div>
@@ -97,8 +97,12 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import Button from "@comps/Button";
 export default {
   name: "ShopCart",
+  components:{
+    Button
+  },
   computed: {
     ...mapState({
       cartList: (state) => state.shopcart.cartList,
@@ -351,7 +355,6 @@ img {
   }
 }
 .sum-btn {
-  display: block;
   position: relative;
   width: 96px;
   height: 52px;
@@ -361,5 +364,7 @@ img {
   font-size: 18px;
   font-family: "Microsoft YaHei";
   background: #e1251b;
+  border: none;
+  outline: none;
 }
 </style>

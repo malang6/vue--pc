@@ -107,13 +107,14 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <button class="subBtn" @click="submit">提交订单</button>
+      <Button class="subBtn" @click="submit">提交订单</Button>
     </div>
   </div>
 </template>
 
 <script>
 import { reqGetOrderList, reqSubmitOrder } from "@api/order";
+import Button from "@comps/Button"
 export default {
   name: "Trade",
   data() {
@@ -122,6 +123,9 @@ export default {
       selectAddressId: -1,
       orderComment: "",
     };
+  },
+  components:{
+    Button
   },
   computed: {
     selectAddress() {

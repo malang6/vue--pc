@@ -76,7 +76,7 @@
         <div class="hr"></div>
 
         <div class="submit">
-          <button class="btn" @click="submit">立即支付</button>
+          <Button class="btn" @click="submit">立即支付</Button>
         </div>
         <div class="otherpay">
           <div class="step-tit">
@@ -95,12 +95,16 @@
 <script>
 import QRCode from "qrcode";
 import { reqCreateNative } from "@api/order";
+import Button from "@comps/Button"
 export default {
   name: "Pay",
   data() {
     return {
       totalPrice: 0,
     };
+  },
+  components:{
+    Button
   },
   methods: {
     async submit() {
@@ -291,6 +295,7 @@ export default {
         cursor: pointer;
         user-select: none;
         text-decoration: none;
+        outline: none;
       }
     }
   }

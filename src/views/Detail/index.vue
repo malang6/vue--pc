@@ -104,7 +104,7 @@
                 ></el-input-number>
               </div>
               <div class="add">
-                <a @click="addCart">加入购物车</a>
+                <Button class="click" @click="addCart">加入购物车</Button>
               </div>
             </div>
           </div>
@@ -347,6 +347,7 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 import ImageList from "./ImageList/ImageList";
 import Zoom from "./Zoom/Zoom";
 import TypeNav from "@comps/TypeNav";
+import Button from "@comps/Button"
 
 export default {
   name: "Detail",
@@ -391,6 +392,7 @@ export default {
     ImageList,
     Zoom,
     TypeNav,
+    Button
   },
 };
 </script>
@@ -603,14 +605,15 @@ export default {
             .add {
               float: left;
 
-              a {
+              .click {
                 background-color: #e1251b;
                 padding: 0 25px;
                 font-size: 16px;
                 color: #fff;
                 height: 36px;
                 line-height: 36px;
-                display: block;
+                border: none;
+                outline: none;
               }
             }
           }
