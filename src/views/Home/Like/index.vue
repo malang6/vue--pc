@@ -89,7 +89,7 @@
         <ul class="like-list">
           <li class="like-item" v-for="like in likes" :key="like.id">
             <p class="like-info-pic">
-              <a href="###"> <img :src="like.imgUrl" /> </a>
+              <a href="###"> <img v-lazy="like.imgUrl" /> </a>
             </p>
             <div class="like-info">
               <div class="like-info-title">

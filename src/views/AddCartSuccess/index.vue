@@ -56,9 +56,8 @@ export default {
     next((vm) => {
       if (from.name === "detail" && vm.skuInfos) {
         return next();
-      } else {
-        next("/shopcart");
       }
+       next("/shopcart");
     });
   },
 };

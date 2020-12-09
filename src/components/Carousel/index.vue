@@ -7,7 +7,7 @@
         :key="carousel.id"
         autoplay
       >
-        <img :src="carousel.imgUrl" />
+        <img v-lazy="carousel.imgUrl" />
       </div>
     </div>
 

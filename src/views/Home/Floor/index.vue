@@ -20,7 +20,7 @@
               {{ navItem.text }}
             </li>
           </ul>
-          <img :src="floor.imgUrl" class="blockgary-img" />
+          <img v-lazy="floor.imgUrl" class="blockgary-img" />
         </div>
         <div class="lunbo">
           <!-- 轮播图 -->
@@ -29,18 +29,18 @@
         <div class="split">
           <span class="line"></span>
           <img
-            :src="recommend.imgUrl"
+            v-lazy="recommend.imgUrl"
             v-for="recommend in floor.recommendList.slice(0, 2)"
             :key="recommend.id"
           />
         </div>
         <div class="split-center">
-          <img :src="floor.bigImg" />
+          <img v-lazy="floor.bigImg" />
         </div>
         <div class="split">
           <span class="line"></span>
           <img
-            :src="recommend.imgUrl"
+            v-lazy="recommend.imgUrl"
             v-for="recommend in floor.recommendList.slice(2, 4)"
             :key="recommend.id"
           />
